@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="form-animals">
+
+    <div class="mb-4">
+      <p class="navigation mb-1 mt-5"><%= link_to "Dashboard", dashboard_path(current_user), class:"navigation" %> / Adicionar animal</p>
+      <h4 class="second-title">Adicionar Animal</h4>
+    </div>
+
+    <div class="form-info">
+      <%= simple_form_for @animal do |f| %>
+        <%= f.input :name, label: 'Nome', placeholder: 'Caramelo' %>
+        <%= f.input :photo, as: :file %>
+        <%= f.input :specie, label: 'Espécie', as: :radio_buttons, collection: ['Gato', 'Cachorro'], input_html: { class: "tag-selector" }, item_wrapper_class: 'tag-item' %>
+        <%= f.input :age, label: 'Idade', as: :radio_buttons, collection: ['Filhote', 'Adulto', 'Idoso'], placeholder: 'Filhote', input_html: { class: "tag-selector" }, item_wrapper_class: 'tag-item' %>
+        <%= f.input :size, label: 'Porte', as: :radio_buttons, collection: ['Pequeno', 'Médio', 'Grande'], input_html: { class: "tag-selector" }, item_wrapper_class: 'tag-item' %>
+        <%= f.input :gender, label: 'Gênero', as: :radio_buttons, collection: ['Macho', 'Fêmea'], input_html: { class: "tag-selector" }, item_wrapper_class: 'tag-item' %>
+        <%= f.input :vaccination, label: 'Vacinado', as: :boolean, input_html: { class: "toggle p-0" } %>
+        <%= f.input :neutered, label: 'Castrado', as: :boolean, input_html: { class: "toggle p-0" } %>
+
+        <%= f.input :city, label: 'Cidade', placeholder: 'Digite a sua Cidade', class:"city" %>
+        <%= f.input :state, label: 'Estado', as: :select, collection: @states, placeholder: 'Selecione o Estado', include_blank: true, class:"state ms-3" %>
+
+        <%= f.input :story, :as => :text, :input_html => { class: 'test', :cols => 5, :rows => 8 }, label: 'História', placeholder: 'Descreva a história do resgate do seu animal', class:"textarea" %>
+        <% if @animal.new_record? %>
+          <%= f.button :submit, "Cadastrar animal", class:"btn btn-dark-green" %>
+        <% else %>
+          <%= f.button :submit, "Atualizar", class:"btn btn-dark-green" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

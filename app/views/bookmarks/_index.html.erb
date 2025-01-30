@@ -1,0 +1,35 @@
+<% @bookmarks = Bookmark.where(user_id: current_user.id).includes(:animal) %>
+<div class="container mb-4"> <!-- Add CSS class to the container -->
+
+  <div class="row d-flex align-items-between mx-auto">
+
+  <% if @bookmarks.any? %>
+    <% @bookmarks.each do |bookmark| %>
+
+      <div class="col-sm-3 mb-4">
+        <div class="card-index mx-auto my-auto">
+          <div class="position-relative">
+            <% if bookmark.animal.photo.attached? %>
+              <%= cl_image_tag bookmark.animal.photo.key, width: 240, height: 240, crop: :fill %>
+            <% else %>
+              <%= image_tag "CRMLO.png", width: 240, height: 240 %>
+            <% end %>
+          </div>
+          <div class="back-caramelo d-flex justify-content-between p-4">
+            <div class="animal-preview">
+              <h3 class="mb-0"><%= bookmark.animal.name %></h3>
+              <p class="mb-0"><%= bookmark.animal.city %>/<%= bookmark.animal.state %></p>
+            </div>
+            <div class="my-icons d-flex">
+              <%= link_to "<i class=\"fa-solid fa-circle-info\"></i>".html_safe, animal_path(bookmark.animal), class:"info me-1" %>
+              <%= button_to '<i class="fa-solid fa-heart"></i>'.html_safe, bookmark_path(bookmark, from_page: "dashboard"), method: :delete, data: { turbo_confirm: "Você tem certeza?" }, style: "background: none; border: none; padding: 0; font: inherit; cursor: pointer;", class: "delete" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p>Você ainda não tem nenhum animal favorito</p>
+  <% end %>
+  </div>
+</div>

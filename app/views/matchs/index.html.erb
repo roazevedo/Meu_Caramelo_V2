@@ -1,0 +1,73 @@
+<div class="container mb-4">
+  <div class="mb-4">
+    <p class="navigation mb-1 mt-5"><%= link_to "Home", "/", class:"navigation" %> / Meus Matches</p>
+    <h4 class="second-title"><%=@matches.count %> Matches</h4>
+   <%= link_to 'Ver todos os animais', animals_path, class: 'btn-dark-green' %>
+  </div>
+
+  <div class="row d-flex align-items-between mx-3">
+    <% @matches.sort_by { |match| -match[:match_data][:score] }.each do |match| %>
+
+      <div class="col-sm-3 mb-4">
+        <div class="card-index mx-auto my-auto">
+          <div class="position-relative">
+            <% if match[:animal].photo.attached? %>
+              <%= cl_image_tag match[:animal].photo.key, width: 240, height: 240, crop: :fill %>
+            <% else %>
+              <%= image_tag "CRMLO.png", width: 240, height: 240 %>
+            <% end %>
+            <div class="number position-absolute top-0 start-0 d-flex justify-content-center align-items-center p-2"><%= (match[:match_data][:score].to_f / 6 * 100).round(0) %>%</div>
+          </div>
+
+          <div class="back-caramelo d-flex justify-content-between p-4 pb-0">
+            <div class="animal-preview">
+              <h3 class="mb-0"><%= match[:animal].name%></h3>
+              <p class="mb-0"><%= match[:animal].city %>/<%= match[:animal].state %></p>
+            </div>
+
+            <div class="icons d-flex">
+              <%= link_to "<i class=\"fa-solid fa-circle-info\"></i>".html_safe, animal_path(match[:animal].id), class:"info" %>
+
+              <% if current_user.adopter? %>
+                <% if current_user.bookmarks.exists?(animal_id: match[:animal].id) %>
+                  <% bookmark = current_user.bookmarks.find_by(animal_id: match[:animal].id) %>
+                    <%= button_to "<i class='fa-solid fa-heart red-heart'></i>".html_safe,
+                      bookmark_path(bookmark, from_page: "matchs"), method: :delete,
+                      style: "background: none; border: none; padding: 0; font: inherit; cursor: pointer;",
+                      class: "info ms-1 favorite-button" %>
+                <% else %>
+                  <%= button_to "<i class='fa-solid fa-heart'></i>".html_safe,
+                    bookmarks_path(from_page: "matchs"), method: :post, params: { bookmark: { animal_id: match[:animal].id } },
+                    style: "background: none; border: none; padding: 0; font: inherit; cursor: pointer;",
+                    class: "info ms-1 favorite-button" %>
+                <% end %>
+              <% end %>
+
+            </div>
+          </div>
+
+          <div class="animal-preview">
+            <div class="back-caramelo d-flex justify-content-between p-4 pb-1">
+              <p class="mb-0"><i class="fa-solid fa-ruler-combined me-1"></i> <%= match[:match_data][:size_match] ? " <i class=\"fa-solid fa-circle-check green\"></i>".html_safe : " <i class=\"fa-solid fa-ban red\"></i>".html_safe %></p>
+                <% if match[:animal].specie === "Gato" %>
+                  <p class="mb-0"><i class="fa-solid fa-cat me-1"></i> <%= match[:match_data][:specie_match] ? "<i class=\"fa-solid fa-circle-check green\"></i>".html_safe : "<i class=\"fa-solid fa-ban red\"></i>".html_safe %></p>
+                <% else %>
+                  <p class="mb-0"><i class="fa-solid fa-dog me-1"></i> <%= match[:match_data][:specie_match] ? "<i class=\"fa-solid fa-circle-check green\"></i>".html_safe : "<i class=\"fa-solid fa-ban red\"></i>".html_safe %></p>
+                <% end %>
+              <p class="mb-0"><i class="fa-solid fa-venus-mars me-1"></i> <%= match[:match_data][:gender_match] ? "<i class=\"fa-solid fa-circle-check green\"></i>".html_safe : "<i class=\"fa-solid fa-ban red\"></i>".html_safe %></p>
+            </div>
+          </div>
+
+          <div class="animal-preview">
+            <div class="back-caramelo d-flex justify-content-between p-4 pt-0">
+              <p class="mb-0"><i class="fa-solid fa-baby-carriage me-1"></i> <%= match[:match_data][:age_match] ? "<i class=\"fa-solid fa-circle-check green\"></i>".html_safe : "<i class=\"fa-solid fa-ban red\"></i>".html_safe %></p>
+              <p class="mb-0"><i class="fa-solid fa-syringe me-1"></i> <%= match[:match_data][:vaccination_match] ? "<i class=\"fa-solid fa-circle-check green\"></i>".html_safe : "<i class=\"fa-solid fa-ban red\"></i>".html_safe %></p>
+              <p class="mb-0"><i class="fa-solid fa-scissors"></i> <%= match[:match_data][:neutered_match] ? " <i class=\"fa-solid fa-circle-check green\"></i>".html_safe : "<i class=\"fa-solid fa-ban red\"></i>".html_safe %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>

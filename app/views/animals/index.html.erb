@@ -1,0 +1,78 @@
+<div class="container mb-4">
+  <div class="mb-4">
+    <p class="navigation mb-1 mt-5"><%= link_to "Home", "/", class:"navigation" %> / Animais para adoção</p>
+    <h4 class="second-title mb-0"><%=@animals.count %> animais para adoção</h4>
+  </div>
+
+  <%= form_tag animals_path, method: :get do %>
+    <div class="d-flex mb-4">
+      <% Animal.pluck(:specie).uniq.each do |specie| %>
+        <% if specie %>
+          <div class="form-check ps-0">
+          <%= radio_button_tag "search", specie, params[:search] == specie, id: "specie_#{specie.parameterize}", class: "tag-selector" %>
+          <%= label_tag "specie_#{specie.parameterize}", specie, class:"m-0 me-2" %>
+    </div>
+        <% end %>
+  <% end %>
+      <%= button_tag(type: 'submit', class: "btn-simple") do %>
+        <i class="fa-solid fa-magnifying-glass"></i>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="row d-flex align-items-between mx-3">
+    <% @animals.each do |animal| %>
+        <div class="col-sm-3 mb-4">
+          <div class="card-index mx-auto my-auto">
+
+
+            <div class="position-relative">
+              <div>
+                <% if animal.photo.attached? %>
+                  <%= cl_image_tag animal.photo.key, width: 240, height: 240, crop: :fill %>
+                <% else %>
+                  <%= image_tag "CRMLO.png", width: 240, height: 240 %>
+                <% end %>
+              </div>
+                <% animal.adoptions.each do |adoption| %>
+                  <% if adoption.status == "Aceito" %>
+
+                <div class="adopted position-absolute top-0 start-0 w-100 d-flex justify-content-center align-items-center p-2">Adotado</div>
+                  <% elsif adoption.present? && adoption.status == "Pendente" %>
+                <div class="adopted position-absolute top-0 start-0 w-100 d-flex justify-content-center align-items-center p-2">Em processo de adoção</div>
+
+                  <% end %>
+                <% end %>
+              </div>
+
+            <div class="back-caramelo d-flex justify-content-between p-4">
+              <div class="animal-preview">
+                <h3 class="mb-0"><%= animal.name %></h3>
+                <p class="mb-0"><%= animal.city %>/<%= animal.state %></p>
+              </div>
+
+              <div class="icons d-flex">
+                  <%= link_to "<i class=\"fa-solid fa-circle-info\"></i>".html_safe, animal_path(animal), class:"info" %>
+
+                  <% if current_user.adopter? && animal.adoptions.none? { |adoption| adoption.status == "Aceito" || adoption.status == "Pendente" } %>
+                    <% if current_user.bookmarks.exists?(animal_id: animal.id) %>
+                      <% bookmark = current_user.bookmarks.find_by(animal_id: animal.id) %>
+                      <%= button_to "<i class='fa-solid fa-heart red-heart'></i>".html_safe,
+                        bookmark_path(bookmark), method: :delete,
+                        style: "background: none; border: none; padding: 0; font: inherit; cursor: pointer;",
+                        class: "info ms-1 favorite-button" %>
+                    <% else %>
+                      <%= button_to "<i class='fa-solid fa-heart'></i>".html_safe,
+                        bookmarks_path(from_page: "animals"), method: :post, params: { bookmark: { animal_id: animal.id } },
+                        style: "background: none; border: none; padding: 0; font: inherit; cursor: pointer;",
+                        class: "info ms-1 favorite-button" %>
+                    <% end %>
+                  <% end %>
+
+              </div>
+            </div>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

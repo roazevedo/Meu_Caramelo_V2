@@ -1,0 +1,190 @@
+.number {
+    color: $dark-caramel;
+    background-color: $caramel-grey;
+    font-family: $my-font;
+    font-size: 23px;
+    width: 35%;
+}
+
+.adopted {
+    color: $dark-caramel;
+    background-color: $caramel-grey;
+    font-family: $base-font;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.adopted-btn {
+    color: $caramel-grey;
+    background-color: $dark-caramel;
+    font-family: $base-font;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.match-btn {
+    width: 250px;
+}
+
+.card-match {
+    height: 380x;
+    width: 320px;
+    .image {
+        height: 320px;
+        width: 320px;
+        object-fit: cover;
+    }
+    .animal-preview {
+        h3 {
+            font-family: $base-font;
+            font-weight: bold;
+            font-size: 30px;
+            color: $dark-caramel;
+        }
+        p {
+            font-family: $base-font;
+            color: $dark-caramel;
+            font-size: 17px;
+        }
+        i {
+            font-size: 15px;
+        }
+    }
+    .info {
+        color: $dark-caramel;
+         :hover {
+            color: $caramel;
+        }
+    }
+    .back-caramelo {
+        background-color: $caramel-grey;
+        box-shadow: 0 4px 4px rgba(0, 0, 0.2, 0.2);
+    }
+}
+
+.title-match {
+    font-family: $my-font;
+    font-weight: bold;
+    font-size: 60px;
+    color: $dark-caramel;
+}
+
+// progress bar
+@keyframes progress {
+    0% {
+        --percentage: 0;
+    }
+    100% {
+        --percentage: var(--value);
+    }
+}
+
+@property --percentage {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+}
+
+[role="progressbar"] {
+    --percentage: var(--value);
+    --primary: #5A3E29;
+    --secondary: #F1ECE2;
+    --size: 180px;
+    animation: progress 2s 0.5s forwards;
+    width: var(--size);
+    height: var(--size);
+    ;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+}
+
+[role="progressbar"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(var(--primary) calc(var(--percentage) * 1%), var(--secondary) 0);
+    mask: radial-gradient(white 55%, transparent 0);
+    mask-mode: alpha;
+    -webkit-mask: radial-gradient(#0000 55%, #000 0);
+    -webkit-mask-mode: alpha;
+}
+
+[role="progressbar"]::after {
+    counter-reset: percentage var(--value);
+    content: counter(percentage) '%';
+    font-family: $my-font;
+    font-weight: bold;
+    font-size: calc(var(--size) / 4);
+    color: var(--primary);
+}
+
+.view-match {
+    height: 100% !important;
+}
+
+// progress bar2
+@keyframes progress {
+    0% {
+        --percentage: 0;
+    }
+    100% {
+        --percentage: var(--value);
+    }
+}
+
+@property --percentage {
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
+}
+
+[role="progressbar2"] {
+    --percentage: var(--value);
+    --primary: #5A3E29;
+    --secondary: #cfcbc2;
+    --size: 60px;
+    animation: progress 2s 0.5s forwards;
+    width: var(--size);
+    height: var(--size);
+    ;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+}
+
+[role="progressbar2"]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(var(--primary) calc(var(--percentage) * 1%), var(--secondary) 0);
+    mask: radial-gradient(white 55%, transparent 0);
+    mask-mode: alpha;
+    -webkit-mask: radial-gradient(#0000 55%, #000 0);
+    -webkit-mask-mode: alpha;
+}
+
+[role="progressbar2"]::after {
+    counter-reset: percentage var(--value);
+    content: counter(percentage) '%';
+    font-family: $my-font;
+    font-weight: bold;
+    font-size: calc(var(--size) / 4);
+    color: var(--primary);
+}
+
+.view-match {
+    height: 100% !important;
+}

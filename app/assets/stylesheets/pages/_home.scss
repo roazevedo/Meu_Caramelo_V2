@@ -1,0 +1,96 @@
+// Specific CSS for your home-page
+.page-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+.banner {
+    .home-hero {
+        width: 100vw;
+    }
+    .hero-btn {
+        width: 290px;
+        margin-top: -190px;
+        margin-left: 300px;
+        margin-bottom: 120px;
+    }
+}
+
+.header {
+    .title-home {
+        font-family: $header-font;
+        color: $caramel;
+    }
+    p {
+        margin-top: -5px;
+        font-family: $base-font;
+    }
+}
+
+.home-icon {
+    font-size: 14px;
+    margin-left: 100px;
+    margin-right: 100px;
+    .icon {
+        height: 250px;
+    }
+}
+
+.happy-end {
+    .card {
+        background-color: $caramel-grey;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 4px rgba(0, 0, 0.2, 0.2);
+        width: 550px;
+        height: 200px;
+        .card-img {
+            height: 160px;
+            width: 160px;
+            object-fit: cover;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-title {
+            font-family: $base-font;
+            color: $dark-caramel;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .card-text {
+            font-family: $base-font;
+            font-size: 13px;
+        }
+    }
+}
+
+.whyadopt {
+    .card {
+        border-color: $light-caramel;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 4px rgba(0, 0, 0.2, 0.2);
+        width: 500px;
+        height: 180px;
+         :hover {
+            background-color: $caramel-grey;
+        }
+        .card-body {
+            padding: 10px;
+        }
+        .card-img {
+            height: 130px;
+            width: 130px;
+            object-fit: cover;
+        }
+        .card-title {
+            font-family: $base-font;
+            color: $dark-caramel;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .card-text {
+            font-family: $base-font;
+            font-size: 13px;
+        }
+    }
+}

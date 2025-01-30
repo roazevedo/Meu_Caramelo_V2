@@ -1,0 +1,165 @@
+# Query: update
+# ContextLines: 1
+
+49 results - 17 files
+
+Dockerfile:
+  20  # Install packages needed to build gems
+  21: RUN apt-get update -qq && \
+  22      apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config
+
+  43  # Install packages needed for deployment
+  44: RUN apt-get update -qq && \
+  45      apt-get install --no-install-recommends -y curl libvips postgresql-client && \
+
+app/controllers/adoption_forms_controller.rb:
+  32  
+  33:   def update
+  34      @adoption_form = AdoptionForm.find(params[:id])
+  35:     if @adoption_form.update(adoption_form_params)
+  36        redirect_to @adoption_form
+
+app/controllers/adoptions_controller.rb:
+   3    before_action :set_animal, only: [:index, :new, :create,:show]
+   4:   before_action :set_adoption, only: [:show, :edit, :update, :done, :update_status, :done]
+   5  
+
+  39  
+  40:   def update_status
+  41      @adoption.status = params[:status]
+
+  53  
+  54:   def update
+  55      @adoption = Adoption.find(params[:id])
+
+  58      if current_user.id == @adoption.animal.user_id # Verifica se o usuário logado é o dono do animal
+  59:       if @adoption.update(status: new_status)
+  60:         redirect_to dashboard_path(@adoption), notice: 'Adoption updated successfully.'
+  61        else
+
+app/controllers/animals_controller.rb:
+  37  
+  38:   def update
+  39      @animal = Animal.find(params[:id])
+  40:     if @animal.update(animal_params)
+  41        redirect_to @animal
+
+app/controllers/application_controller.rb:
+  13      devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :city, :state, :phone, :adopter, :age, :size, :gender, :specie, :vaccination, :neutered])
+  14:     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :city, :state, :phone, :adopter, :age, :size, :gender, :specie, :vaccination, :neutered])
+  15    end
+
+app/controllers/testimonies_controller.rb:
+   4    before_action :set_adoption, only: [:show, :new, :create]
+   5:   before_action :set_testimony, only: [:edit, :update]
+   6    before_action :authenticate_user!
+
+  26  
+  27:   def update
+  28    end
+
+app/controllers/users_controller.rb:
+  40  
+  41:   def update
+  42      @user = User.find(params[:id])
+  43      @adoption_form = AdoptionForm.find_by(user_id: current_user.id)
+  44:     if @user.update(user_params)
+  45        if @adoption_form.blank? && @user.adopter == true
+
+app/views/adoptions/show.html.erb:
+  48            <p class="my-auto"><strong class="contract-bold"><%= "O interessado(a) está apto(a) a ser o novo tutor(a) de " %><%= @adoption.animal.name %>?</strong></p>
+  49:           <%= button_to 'Sim', update_status_path(id: @adoption.id, status: 'Aceito'), method: :patch, data: { "turbo-method": :patch }, class: "btn-green mx-2" %>
+  50:           <%= button_to 'Não', update_status_path(id: @adoption.id, status: 'Recusado'), method: :patch, data: { "turbo-method": :patch }, class: "btn-red" %>
+  51          </div>
+
+app/views/devise/registrations/edit.html.erb:
+  26    <div class="form-actions">
+  27:     <%= f.button :submit, "Update" %>
+  28    </div>
+
+app/views/pages/dashboard.html.erb:
+  115  
+  116:                   <%= f.button :submit, "Salvar", class:"btn-yellow" %>
+  117                  <% end %>
+
+app/views/users/_form.html.erb:
+  56  
+  57:     <%= f.button :submit, "Salvar", class:"btn-yellow" %>
+  58      <%= link_to 'Voltar ao menu principal', user_path(@user), class: 'btn btn-dark-green' %>
+
+bin/bundle:
+  25      return unless invoked_as_script? # don't want to hijack other binstubs
+  26:     return unless "update".start_with?(ARGV.first || " ") # must be running `bundle update`
+  27      bundler_version = nil
+  28:     update_index = nil
+  29      ARGV.each_with_index do |a, i|
+  30:       if update_index && update_index.succ == i && a.match?(Gem::Version::ANCHORED_VERSION_PATTERN)
+  31          bundler_version = a
+
+  34        bundler_version = $1
+  35:       update_index = i
+  36      end
+
+bin/setup:
+  11  FileUtils.chdir APP_ROOT do
+  12:   # This script is a way to set up or update your development environment automatically.
+  13    # This script is idempotent, so that you can run it at any time and get an expectable outcome.
+
+config/routes.rb:
+   8    # get "users/:id/edit", to: "users#edit", as: :edit_user
+   9:   # patch "users/:id", to: "users#update"
+  10  
+
+  21    # get "adoptionforms/:id/edit", to: "adoptionforms#edit"
+  22:   # patch "adoptionforms/:id", to: "adoptionforms#update"
+  23  
+
+  35  
+  36:   patch "adoptions/:id/update_status", to: "adoptions#update_status", as: :update_status
+  37:   patch "adoptions/:id/update_done", to: "adoptions#done", as: :done
+  38  
+  39:   resources :adoption_forms, only: [:index, :show, :new, :create, :edit, :update]
+  40  
+
+  43      resources :animals do
+  44:       resources :adoptions, only: [:index, :show, :new, :create, :edit, :update] do
+  45:         resources :testimonies, only: [:index, :new, :create, :show, :edit, :update]
+  46        end
+
+config/initializers/permissions_policy.rb:
+  3  # Define an application-wide HTTP permissions policy. For further
+  4: # information see: https://developers.google.com/web/updates/2018/06/feature-policy
+  5  
+
+config/locales/devise.pt.yml:
+  38        send_paranoid_instructions: "Se o seu endereço de e-mail estiver cadastrado, você receberá um link de recuperação da senha via e-mail."
+  39:       updated: "Sua senha foi alterada com sucesso. Você está logado."
+  40:       updated_not_active: "Sua senha foi alterada com sucesso."
+  41      registrations:
+
+  46        signed_up_but_unconfirmed: "Uma mensagem com um link de confirmação foi enviada para o seu endereço de e-mail. Por favor, abra o link para confirmar a sua conta."
+  47:       update_needs_confirmation: "Você atualizou a sua conta com sucesso, mas o seu novo endereço de e-mail precisa ser confirmado. Por favor, acesse-o e clique no link de confirmação que enviamos."
+  48:       updated: "Sua conta foi atualizada com sucesso."
+  49:       updated_but_not_signed_in: "Sua conta foi atualizada com sucesso. Como sua senha mudou, você precisa refazer o login."
+  50      sessions:
+
+db/schema.rb:
+   48      t.datetime "created_at", null: false
+   49:     t.datetime "updated_at", null: false
+   50      t.string "pergunta1"
+
+   66      t.datetime "created_at", null: false
+   67:     t.datetime "updated_at", null: false
+   68      t.string "status"
+
+   84      t.datetime "created_at", null: false
+   85:     t.datetime "updated_at", null: false
+   86      t.bigint "user_id", null: false
+
+   93      t.datetime "created_at", null: false
+   94:     t.datetime "updated_at", null: false
+   95      t.index ["adoption_id"], name: "index_testimonies_on_adoption_id"
+
+  104      t.datetime "created_at", null: false
+  105:     t.datetime "updated_at", null: false
+  106      t.string "first_name"

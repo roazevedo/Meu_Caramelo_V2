@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Meu Caramelo V2" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Meu Caramelo - Transforme uma vida, adote um amigo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= yield :head %>
-
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag 'https://code.jquery.com/jquery-3.4.1.slim.min.js' %>
+    <%= javascript_include_tag 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' %>
     <%= javascript_importmap_tags %>
+    <%= favicon_link_tag %>
   </head>
 
   <body>
-    <%= yield %>
+
+    <div class="page-container">
+      <div id="content-wrap">
+        <% unless @hide_nav_footer %>
+          <%= render 'shared/navbar' %>
+        <% end %>
+        <%= yield %>
+      </div>
+
+      <% unless @hide_nav_footer %>
+        <%= render 'shared/footer' %>
+      <% end %>
+    </div>
+
+    <%= render "shared/flashes" %>
   </body>
 </html>

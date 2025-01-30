@@ -1,0 +1,29 @@
+
+<div class="container">
+  <div class="row">
+  <%= simple_form_for @adoption_form do |f| %>
+    <div class="name d-flex justify-content-between">
+    <div class="col-7 mr-3">
+    <%= f.input :pergunta1, label: "Tem criança na residência? ", collection: ['Sim', 'Não'] %>
+    </div>
+    <div class="col-4 mr-3">
+    <%= f.input :pregunta2, label: "Mora em? ", collection: ['Casa', 'Apartamento'] %>
+    </div>
+    </div>
+    <div class="name d-flex justify-content-between">
+    <div class="col-7 mr-3">
+    <%= f.input :pergunta3, label: "Espaço disponível na casa? ", collection: ['Pequeno', 'Medio', 'Grande'] %>
+    </div>
+    <div class="col-4 mr-3">
+    <%= f.input :pergunta4, label: "Tem outros pets? ", collection: ['Sim', 'Não'] %>
+    </div>
+    </div>
+    <%= f.input :pergunta5, label: "Quantas horas você passa em casa por dia?", collection: ['4', '4-8', '4-12', '+ 12'] %>
+    <%= f.input :pergunta6, label: "Quantas pessoas morando na residência? "%>
+    <%= f.input :pergunta7, label: "Ele ficará preso em algum cômodo?", collection: ['Sim', 'Não'] %>
+    <%= f.input :pergunta8, label: "Você aceita manter contato com a gente e mandar fotos e vídeos constantemente?", collection: ['Sim', 'Não'] %>
+    <%= f.button :submit, "Concluir", class:"btn btn-dark-green" %>
+  <% end %>
+
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="container mb-4">
+  <%= link_to "Adicionar animal", new_animal_path, class: "nav-link btn btn-dark-green mb-2 add-animal" %>
+  <div class="row d-flex align-items-between mx-auto">
+    <% @animals.each do |animal| %>
+      <% if current_user.id == animal.user.id && animal.present?%>
+        <% if animal.present? %>
+
+          <div class="col-sm-3 mb-3 mt-3">
+            <div class="card-index mx-auto my-auto">
+
+              <div class="position-relative">
+                <% if animal.photo.attached? %>
+                  <%= cl_image_tag animal.photo.key, width: 240, height: 240, crop: :fill %>
+                <% else %>
+                  <%= image_tag "CRMLO.png", width: 240, height: 240 %>
+                <% end %>
+
+                <% animal.adoptions.each do |adoption| %>
+                  <% if adoption.status == "Aceito" %>
+                    <div class="adopted position-absolute top-0 start-0 w-100 d-flex justify-content-center align-items-center p-2">Adotado</div>
+                  <% end %>
+                <% end %>
+              </div>
+
+              <div class="back-caramelo d-flex justify-content-between p-4">
+                <div class="animal-preview">
+                  <h3 class="mb-0"><%= animal.name %></h3>
+                  <p class="mb-0"><%= animal.city %>/<%= animal.state %></p>
+                </div>
+
+                <div class="my-icons">
+                  <%= link_to "<i class=\"fa-solid fa-circle-info\"></i>".html_safe, animal_path(animal), class:"info me-1" %>
+                  <%= link_to '<i class="fa-solid fa-pen-to-square"></i>'.html_safe, edit_animal_path(animal), class:"edit me-1 edit" %>
+                  <%= link_to '<i class="fa-solid fa-trash"></i>'.html_safe, animal_path(animal), data: {turbo_method: :delete, turbo_confirm: "Você tem certeza?"}, class:"delete" %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% else %>
+          <div class="col-sm-4">
+            <div class="card">
+              <h3>Você não tem animais cadastrados</h3>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,138 @@
+.second-title {
+    font-family: $base-font;
+    font-weight: bold;
+    color: $dark-caramel;
+}
+
+.title-form {
+    font-family: $base-font;
+    font-weight: bold;
+    color: $dark-caramel;
+    font-size: 25px;
+}
+
+.navigation {
+    text-decoration: none;
+    color: $dark-caramel;
+    font-family: $base-font;
+    font-size: 15px;
+     :hover {
+        color: $caramel;
+    }
+}
+
+.card-index {
+    height: 380x;
+    width: 240px;
+    .image {
+        height: 240px;
+        width: 240px;
+        object-fit: cover;
+    }
+    .animal-preview {
+        h3 {
+            font-family: $base-font;
+            font-weight: bold;
+            font-size: 20px;
+            color: $dark-caramel;
+        }
+        p {
+            font-family: $base-font;
+            color: $dark-caramel;
+            font-size: 13px;
+        }
+        i {
+            font-size: 15px;
+        }
+    }
+    .info {
+        color: $dark-caramel;
+         :hover {
+            color: $caramel;
+        }
+    }
+    .back-caramelo {
+        background-color: $caramel-grey;
+        box-shadow: 0 4px 4px rgba(0, 0, 0.2, 0.2);
+    }
+}
+
+.card-show {
+    .image {
+        height: 550px;
+        width: 550px;
+        object-fit: cover;
+        box-shadow: 4px 4px 4px rgba(0, 0, 0.2, 0.2);
+    }
+    .title {
+        font-family: $base-font;
+        font-weight: bold;
+        font-size: 40px;
+        color: $dark-caramel;
+    }
+    p {
+        font-family: $base-font;
+        color: $dark-caramel;
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+    .name {
+        text-decoration: none;
+        color: $dark-caramel;
+         :hover {
+            color: $caramel;
+        }
+    }
+    h3 {
+        font-family: $base-font;
+        font-weight: bold;
+        font-size: 17px;
+        color: $dark-caramel;
+    }
+    h4 {
+        font-family: $base-font;
+        font-size: 16px;
+        color: $dark-caramel;
+        font-weight: normal;
+    }
+    .animal-info {
+        background-color: $caramel-grey;
+        box-shadow: 4px 4px 4px rgba(0, 0, 0.2, 0.2);
+        width: 550px;
+        .icons {
+            font-size: 25px;
+            .edit {
+                color: #ffc800;
+                 :hover {
+                    color: #f3be00;
+                }
+            }
+            .delete {
+                color: $red;
+                 :hover {
+                    color: rgb(238, 5, 5);
+                }
+            }
+        }
+    }
+}
+
+.my-icons {
+    .edit {
+        color: #ffc800;
+         :hover {
+            color: #f3be00;
+        }
+    }
+    .delete {
+        color: $red;
+         :hover {
+            color: rgb(238, 5, 5);
+        }
+    }
+}
+
+.add-animal {
+    width: 200px;
+    margin-left: 25px;
+}
