@@ -10,9 +10,9 @@
 
               <div class="position-relative">
                 <% if animal.photo.attached? %>
-                  <%= cl_image_tag animal.photo.key, width: 240, height: 240, crop: :fill %>
+                  <%= cl_image_tag animal.photo.key, width: 240, height: 240, crop: :fill%>
                 <% else %>
-                  <%= image_tag "CRMLO.png", width: 240, height: 240 %>
+                  <%= image_tag "CRMLO.png", width: 240, height: 240%>
                 <% end %>
 
                 <% animal.adoptions.each do |adoption| %>

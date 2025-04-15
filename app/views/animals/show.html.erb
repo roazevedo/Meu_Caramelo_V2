@@ -80,11 +80,14 @@
           <% end %>
         <% else %>
           <% if current_user.adopter? %>
-            <% if current_user.adoption_form.present? %>
-              <%= link_to "Quero adotar", new_animal_adoption_path(@animal), class: "btn-dark-green my-2 w-100" %>
-            <% else %>
-              <%= link_to "Quero adotar", new_adoption_form_path({target_animal_id: @animal.id}), class: "btn-dark-green my-2 w-100" %>
-            <% end %>
+            <div class="d-flex">
+              <% if current_user.adoption_form.present? %>
+                <%= link_to "Quero adotar", new_animal_adoption_path(@animal), class: "btn-dark-green m-2 w-100 rounded-4" %>
+              <% else %>
+                <%= link_to "Quero adotar", new_adoption_form_path({target_animal_id: @animal.id}), class: "btn-dark-green m-2 w-100 rounded-4" %>
+              <% end %>
+              <%= button_to "Chat", animal_chatrooms_path(@animal), method: :post, class: "btn btn-primary" %>
+            </div>
           <% end %>
         <% end %>
       </div>

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 #  devise_for :users
 
   devise_for :users, controllers: { registrations: 'registrations' }
-  
+
   # post "users", to: "users#create"
 
    #get "users/:id", to: "users#show", as: :user
@@ -42,6 +42,14 @@ Rails.application.routes.draw do
     resources :adoptions, except: [:destroy]
   end
 
+  resources :animals, only: [:show] do
+    resources :chatrooms, only: [:create]
+  end
+
+  resources :chatrooms, only: [:show] do
+    resources :messages, only: [:index, :create]
+  end
+
   # get 'favorites', to: 'bookmarks#favorites', as: 'favorites'
   get 'bookmarks', to: 'bookmarks#index', as: 'index'
   post 'bookmarks', to: 'bookmarks#create', as: 'bookmarks'
@@ -52,6 +60,9 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:show]
-    get "edit_user", to: "users#edit", as: :edit_user
-    patch "update_user", to: "users#update", as: :update_user
+
+  get "edit_user", to: "users#edit", as: :edit_user
+  patch "update_user", to: "users#update", as: :update_user
+
+  get "/chatrooms/unread_count", to: "chatrooms#unread_count"
 end

@@ -15,6 +15,5 @@ class PagesController < ApplicationController
     @adoption_form = @user.adoption_form || AdoptionForm.new
   end
 
-  def match
-  end
+  def match; end
 end

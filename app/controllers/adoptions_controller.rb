@@ -39,10 +39,10 @@ class AdoptionsController < ApplicationController
     @adoption.animal = @animal # Atribuindo o animal à adoção
     @adoption.status = 'Pendente' # Definindo o status de aceitação da adoção
     @adoption.done = false # Definindo o status de conclusão do contrato
-    @adoption_created = true
 
     if @adoption.save
       redirect_to adoption_path(@adoption), notice: 'Adoção criada com sucesso!'
+      @adoption_created = true
     else
       render :new, status: :unprocessable_entity, notice: 'Não foi possível criar a adoção.'
     end

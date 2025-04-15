@@ -88,19 +88,18 @@
             <div class="card-index mx-auto my-auto">
 
               <div class="position-relative">
-                <div>
-                  <% if animal.photo.attached? %>
-                    <%= cl_image_tag animal.photo.key, width: 240, height: 240, crop: :fill %>
-                  <% else %>
-                    <%= image_tag "CRMLO.png", width: 240, height: 240 %>
+                <% if animal.photo.attached? %>
+                  <%= cl_image_tag animal.photo.key, width: 240, height: 240, crop: :fill %>
+                <% else %>
+                  <%= image_tag "CRMLO.png", width: 240, height: 240 %>
+                <% end %>
+
+                <% animal.adoptions.each do |adoption| %>
+                  <% if adoption.status == "Aceito" %>
+                    <div class="adopted position-absolute top-0 start-0 w-100 d-flex justify-content-center align-items-center p-2">Adotado</div>
                   <% end %>
-                </div>
-                  <% animal.adoptions.each do |adoption| %>
-                    <% if adoption.status == "Aceito" %>
-                      <div class="adopted position-absolute top-0 start-0 w-100 d-flex justify-content-center align-items-center p-2">Adotado</div>
-                    <% end %>
-                  <% end %>
-                </div>
+                <% end %>
+              </div>
 
               <div class="back-caramelo d-flex justify-content-between p-4">
                 <div class="animal-preview">

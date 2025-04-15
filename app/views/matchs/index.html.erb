@@ -1,8 +1,9 @@
+
 <div class="container mb-4">
   <div class="mb-4">
     <p class="navigation mb-1 mt-5"><%= link_to "Home", "/", class:"navigation" %> / Meus Matches</p>
     <h4 class="second-title"><%=@matches.count %> Matches</h4>
-   <%= link_to 'Ver todos os animais', animals_path, class: 'btn-dark-green' %>
+    <%= link_to 'Ver todos os animais', animals_path, class: 'btn-dark-green' %>
   </div>
 
   <div class="row d-flex align-items-between mx-3">
@@ -69,5 +70,6 @@
       </div>
     <% end %>
   </div>
-
 </div>
+
+<%= turbo_frame_tag "bootstrap_modal" %>
