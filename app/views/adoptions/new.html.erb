@@ -1,0 +1,29 @@
+<!-- Criação de adoption -->
+
+<div class="container">
+  <div class="mb-1">
+    <p class="navigation mb-1 mt-5"><%= link_to "Home", "/", class:"navigation" %> / <%= link_to "Animais para adoção", animals_path, class:"navigation" %> / <%= @animal.name %></p>
+  </div>
+  <% if @animal.gender == 'Macho' %>
+    <div class="text-center">
+      <h4 class="title-sm text-center mt-2 mb-0">Ficamos muito felizes que você gostaria de adotar o <%= @animal.name %>!</h4>
+      <p class="mb-0 mt-2">Para darmos continuidade ao processo, coloque qual a melhor data para você receber seu novo melhor amigo</p>
+      <p>Assim seu tutor pode se preparar melhor para a entrega</p>
+    </div>
+  <% elsif @animal.gender == 'Fêmea' %>
+    <div class="text-center">
+      <h4 class="title-sm text-center mt-2 mb-0">Ficamos muito felizes que você gostaria de adotar a <%= @animal.name %>!</h4>
+      <p class="mb-0 mt-2">Para darmos continuidade ao processo, coloque qual a melhor data para você receber seu novo melhor amigo</p>
+      <p>Assim seu tutor pode se preparar melhor para a entrega</p>
+    </div>
+  <% end %>
+  <div class="devise-card mt-4 mb-5 mx-auto">
+    <%= simple_form_for [@animal, @adoption] do |f| %>
+      <%= f.input :date, as: :date, label: 'Melhor data para a adoção:', start_year: Date.today.year, end_year: Date.today.year + 1 %>
+      <%= f.button :submit, "Concluir", class:"btn-dark-green" %>
+      <%= link_to 'Voltar', animal_path(@animal), class:"btn-dark-green-outline" %>
+    <% end %>
+  </div>
+</div>
+
+<!-- fazer botão para todos os 'matches' (index animals) -->

@@ -1,0 +1,148 @@
+<div class="container d-flex flex-column mx-auto my-3">
+  <p class="navigation mb-1 mt-5">
+    <%= link_to "Home", "/", class:"navigation" %> /
+    <%= link_to "Minhas adoções", dashboard_path(@adoption), class:"navigation" %>
+  </p>
+
+  <% if current_user.adopter? %>
+    <div class="bg-success text-dark bg-opacity-25 rounded-4 p-4 my-4">
+      <h4>Parabéns! Você e <strong><%= @animal.name %></strong> deram match!</h4>
+      <hr>
+      <p>Em breve a tutora do seu futuro pet entrará em contato com você na data marcada para que possam conversar um pouco mais.</p>
+    </div>
+  <% end %>
+
+  <h2 class="second-title mb-4">Resumo da Adoção</h2>
+    <div class="card-show d-flex mb-5 mx-auto">
+      <div>
+        <% if @animal.photo.attached? %>
+          <%= cl_image_tag @animal.photo.key, width: 550, height: 550, crop: :fill %>
+        <% else %>
+          <%= image_tag "CRMLO.png", width: 550, height: 550 %>
+        <% end %>
+      </div>
+
+      <div class="animal-info py-4 px-5 d-flex flex-column justify-content-between">
+
+        <div class="score d-flex justify-content-between">
+          <h2 class="title"><%= "#{@adoption.animal.name}" %></h2>
+
+          <div class="col-3 mb-6 my-auto ">
+            <% if @match_data %>
+              <div role="progressbar2" aria-valuenow="<%= (@match_data[:score].to_f / 6 * 100).round(0) %>" aria-valuemin="0" aria-valuemax="100" style="--value: <%= (@match_data[:score].to_f / 6 * 100).round(0) %>" class="my-auto mx-auto"></div>
+            <% end %>
+          </div>
+        </div>
+
+        <p><strong><%= "Interessado(a): " %></strong><%= "#{@adoption.user.first_name} #{@adoption.user.last_name}" %></p>
+        <p><strong><%= "E-mail de #{@adoption.user.first_name}: " %></strong><%= "#{@adoption.user.email}" %></p>
+        <p><strong><%= "Tutor(a): " %></strong><%= "#{@adoption.animal.user.first_name} #{@adoption.animal.user.last_name}" %></p>
+        <p><strong><%= "E-mail de #{@adoption.animal.user.first_name}: " %></strong><%= "#{@adoption.animal.user.email}" %></p>
+
+        <div class="info my-3">
+          <% if @animal.specie === "Gato" %>
+            <p><i class="fa-solid fa-cat me-1"></i><%= @animal.specie %></p>
+          <% else %>
+            <p><i class="fa-solid fa-dog me-1"></i><%= @animal.specie %></p>
+          <% end %>
+
+          <p><i class="fa-solid fa-baby-carriage"></i> <%= @animal.age %> </p>
+          <p><i class="fa-solid fa-ruler-combined"></i> Porte <%= @animal.size %></p>
+          <p><i class="fa-solid fa-venus-mars"></i> <%= @animal.gender %></p>
+
+          <% if @animal.vaccination && @animal.gender == 'Macho' %>
+            <p><i class="fa-solid fa-check"></i> Vacinado</p>
+          <% elsif @animal.vaccination == false && @animal.gender == 'Macho' %>
+            <p><i class="fa-solid fa-xmark"></i> Não vacinado</p>
+          <% elsif @animal.vaccination && @animal.gender == 'Fêmea' %>
+            <p><i class="fa-solid fa-check"></i> Vacinada</p>
+          <% elsif @animal.vaccination == false && @animal.gender == 'Fêmea' %>
+            <p><i class="fa-solid fa-xmark"></i> Não vacinada</p>
+          <% end %>
+
+          <% if @animal.neutered && @animal.gender == 'Macho' %>
+            <p><i class="fa-solid fa-check"></i> Castrado</p>
+          <% elsif @animal.neutered == false && @animal.gender == 'Macho' %>
+            <p><i class="fa-solid fa-xmark"></i> Não castrado</p>
+          <% elsif @animal.neutered && @animal.gender == 'Fêmea' %>
+            <p><i class="fa-solid fa-check"></i> Castrada</p>
+          <% elsif @animal.neutered == false && @animal.gender == 'Fêmea' %>
+            <p><i class="fa-solid fa-xmark"></i> Não castrada</p>
+          <% end %>
+        </div>
+
+        <h4><strong><%= "Data para entrega do pet: " %></strong> <%= "#{@adoption.date.strftime("%d/%m/%Y")}" %></h4>
+
+        <div class="status">
+          <% if @adoption.status == 'Pendente' %>
+            <h4 class="d-inline-flex"><strong class='my-auto'>Status: </strong><span class="d-inline-flex p-1 ms-1 border border-warning text-warning"><%= @adoption.status %></span></h4>
+          <% elsif @adoption.status == 'Aceito' %>
+            <h4 class="d-inline-flex"><strong class='my-auto'>Status: </strong><span class="d-inline-flex p-1 ms-1 border border-success text-success"><%= @adoption.status %></span></h4>
+          <% elsif @adoption.status == 'Recusado' %>
+            <h4 class="d-inline-flex"><strong class='my-auto'>Status: </strong><span class="d-inline-flex p-1 ms-1 border border-danger text-danger"><%= @adoption.status %></span></h4>
+          <% end %>
+        </div>
+
+
+        <% if current_user.adopter? && @adoption.status == "Aceito" %>
+          <%= link_to 'Conte-nos sua experiência', new_adoption_testimony_path(@adoption), class:'btn-yellow-outline' %>
+        <% end %>
+      </div>
+    </div>
+
+    <% if current_user.adopter? == false %>
+      <div>
+        <h2 class="second-title-dash">Formulário do Adotante</h2>
+        <p>Conheça um pouco mais sobre o possível novo tutor do seu pet, para te ajudar a decidir se ele está apto para a adoção</p>
+        <div class="mx-auto mt-4 mb-5 adoption-card">
+          <%= simple_form_for @adoption_form do |f| %>
+            <div class="name d-flex justify-content-between">
+              <div class="col-5 mr-3">
+                <%= f.input :pergunta1, label: "Tem criança na residência? ", collection: ['Sim', 'Não'], disabled: true %>
+              </div>
+              <div class="col-6 mr-3">
+                <%= f.input :pregunta2, label: "Mora em? ", collection: ['Casa', 'Apartamento'], disabled: true %>
+              </div>
+            </div>
+            <div class="name d-flex justify-content-between">
+              <div class="col-5 mr-3">
+                <%= f.input :pergunta3, label: "Espaço disponível na casa? ", collection: ['Pequeno', 'Medio', 'Grande'], disabled: true %>
+              </div>
+              <div class="col-6 mr-3">
+                <%= f.input :pergunta4, label: "Tem outros pets? ", collection: ['Sim', 'Não'], disabled: true %>
+              </div>
+            </div>
+            <div class="name d-flex justify-content-between">
+              <div class="col-5 mr-3">
+                <%= f.input :pergunta5, label: "Quantas horas você passa em casa por dia?", collection: ['4', '4-8', '4-12', '+ 12'], disabled: true %>
+              </div>
+              <div class="col-6 mr-3">
+                <%= f.input :pergunta6, label: "Quantas pessoas morando na residência? ", disabled: true %>
+              </div>
+            </div>
+            <div class="name d-flex justify-content-between">
+              <div class="col-5 mr-3">
+                <%= f.input :pergunta7, label: "Ele ficará preso em algum cômodo?", collection: ['Sim', 'Não'], disabled: true %>
+              </div>
+              <div class="col-6 mr-3">
+               <%= f.input :pergunta8, label: "Aceita manter contato e mandar notícias constantemente?", collection: ['Sim', 'Não'], disabled: true %>
+              </div>
+            </div>
+          <% end %>
+          <div class="text-center">
+            <% if current_user.adopter? == false && @adoption.status == "Pendente" %>
+              <div class="d-flex justify-content-center my-3">
+                <p class="my-auto"><strong class="contract-bold"><%= "Inicie uma conversa com #{@adoption.user.first_name}. Conheça melhor o interessado em adotar #{ @adoption.animal.name }." %></strong> <%= link_to "Iniciar Chat", "#", class: "btn btn-primary rounded-4" %></p>
+              </div>
+
+              <div class="d-flex justify-content-center mt-4">
+                <p class="my-auto"><strong class="contract-bold"><%= "O interessado(a) está apto(a) a ser o novo tutor(a) de #{ @adoption.animal.name }?" %></strong></p>
+                <%= button_to 'Sim', update_status_path(id: @adoption.id, status: 'Aceito'), method: :patch, data: { "turbo-method": :patch }, class: "btn-green mx-2" %>
+                <%= button_to 'Não', update_status_path(id: @adoption.id, status: 'Recusado'), method: :patch, data: { "turbo-method": :patch }, class: "btn-red" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+</div>

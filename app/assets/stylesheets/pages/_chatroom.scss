@@ -1,0 +1,84 @@
+/* Estilização do fundo da conversa */
+.message-page {
+  /* background: linear-gradient(to right, #1e3c72, #2a5298); /* Azul degradê */
+  height: 100vh; /* Garante que ocupe toda a tela */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.message-box {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px;
+  width: 50vw;
+  height: 100vh;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilização das mensagens */
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Reduzi o espaço entre os balões */
+  padding: 15px;
+  max-height: 65vh; /* Para não crescer infinitamente */
+  overflow-y: auto; /* Adiciona scroll se necessário */
+}
+
+.message-container {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 14px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+  display: inline-block;
+  word-wrap: break-word;
+}
+
+/* Estilização para mensagens enviadas */
+.sent {
+  background-color: #007bff; /* Azul */
+  color: white;
+  align-self: flex-end;
+  text-align: left;
+  border-bottom-right-radius: 5px;
+}
+
+/* Estilização para mensagens recebidas */
+.received {
+  background-color: #f1f1f1; /* Cinza claro */
+  color: black;
+  align-self: flex-start;
+  text-align: left;
+  border-bottom-left-radius: 5px;
+}
+
+.message-text {
+  width: 100%;
+  min-height: 50px;
+  max-height: 150px;
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  padding: 10px;
+  margin-top: 20px;
+  margin-right: 10px;
+  resize: none;
+  overflow-y: auto; /* Adiciona rolagem se necessário */
+}
+
+.message-submit {
+  margin-top: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.message-submit:hover {
+  background-color: #0056b3;
+}

@@ -1,0 +1,23 @@
+<div class="container">
+  <h2 class="title text-center mt-4 mb-0">Cadastre-se</h2>
+
+  <div class="devise-card mt-4 mb-5 mx-auto">
+    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="form-inputs">
+        <%= f.input :email,
+                    required: false,
+                    autofocus: true,
+                    input_html: { autocomplete: "email" } %>
+        <%= f.input :password, label: "Senha",
+                    required: false,
+                    input_html: { autocomplete: "current-password" } %>
+        <%= f.input :remember_me, label: "Lembrar de mim", as: :boolean if devise_mapping.rememberable? %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.button :submit, "Entrar", class:"btn-dark-green" %>
+        <%= render "devise/shared/links" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+  <%= simple_form_for @user , data: { controller: "tab" }, url: :update_user do |f| %>
+    <div class="tab-content">
+
+    <div class="tab-pane active" id="dados">
+      <div class="name d-flex justify-content-between">
+        <%= f.input :first_name, label: "Nome",  required: true %>
+        <%= f.input :last_name, label: "Sobrenome", required: true %>
+      </div>
+      <%= f.input :photo, label: "Foto do Perfil", as: :file %>
+      <%= f.input :city, label: "Cidade", required: true %>
+      <%= f.input :state, label: "Estado", required: true %>
+      <%= f.input :phone, label: "Telefone", required: true %>
+      <%= f.input :adopter, label: "Quero adotar", input_html: { data: { action: "change->tab#checkAdopter", target: "tab.adopter" } } %>
+    </div>
+
+      <div class="tab-pane" id="preferencias" data-target="tab.preferencias">
+        <p class="title-form text-center mt-0 mb-3">Como seria seu animal ideal?</p>
+          <div class="name d-flex justify-content-between">
+            <div class="w-50" >
+              <%= f.input :age, label: "Idade", collection: ['Filhote', 'Adulto', 'Idoso'] %>
+              <%= f.input :size, label: "Porte", collection: ['Pequeno', 'Médio', 'Grande'] %>
+            </div>
+
+            <div class="w-50 ms-3">
+              <%= f.input :gender, label: "Gênero", collection: ['Macho', 'Fêmea'] %>
+              <%= f.input :specie, label: "Espécie", collection: ['Cachorro', 'Gato']%>
+            </div>
+          </div>
+
+          <div class="edit-form d-flex">
+            <%= f.input :vaccination, label: 'Vacinado', as: :boolean, input_html: { class: "toggle" } %>
+            <%= f.input :neutered, label: 'Castrado', as: :boolean, input_html: { class: "toggle" } %>
+          </div>
+      </div>
+    </div>
+
+
+    <%= f.button :submit, "Salvar", class:"btn-yellow" %>
+    <%# link_to 'Voltar ao menu principal', user_path(@user), class: 'btn btn-dark-green-outline' %>
+  <% end %>

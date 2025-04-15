@@ -1,0 +1,96 @@
+<div class="container d-flex flex-column mx-auto">
+  <div class="mb-1">
+    <p class="navigation mb-1 mt-5"><%= link_to "Home", "/", class:"navigation" %> / <%= link_to "Animais para adoção", animals_path, class:"navigation" %> / <%= @animal.name %></p>
+  </div>
+
+  <div class="card-show d-flex mb-5 mx-auto">
+    <div>
+      <% if @animal.photo.attached? %>
+        <%= cl_image_tag @animal.photo.key, width: 550, height: 550, crop: :fill %>
+      <% else %>
+        <%= image_tag "CRMLO.png", width: 550, height: 550 %>
+      <% end %>
+    </div>
+
+    <div class="animal-info py-4 px-5 d-flex flex-column justify-content-between">
+      <!-- código a ser executado se o usuário tiver um animal -->
+      <div>
+        <div class="d-flex justify-content-between">
+          <h1 class="title mb-0"><%= @animal.name %></h1>
+
+          <div class="icons">
+            <% if current_user == @animal.user %>
+              <!-- fazer botão para todos os 'matches' (index animals) -->
+              <%= link_to '<i class="fa-solid fa-pen-to-square"></i>'.html_safe, edit_animal_path(@animal), class:"me-1 edit" %>
+              <!-- app/views/animals/show.html.erb -->
+              <%= link_to '<i class="fa-solid fa-trash"></i>'.html_safe, animal_path(@animal), data: {turbo_method: :delete, turbo_confirm: "Você tem certeza?"}, class:"delete" %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="my-2">
+          <p class="mb-0"><i class="fa-solid fa-user me-1"></i> Publicado por <b><%= link_to @animal.user.first_name, user_path(@animal.user), class:"name" %></b></p>
+          <p><i class="fa-solid fa-location-dot me-1"></i> <%= @animal.city %>/<%= @animal.state %></p>
+        </div>
+
+        <div class="info my-3">
+          <% if @animal.specie === "Gato" %>
+            <p><i class="fa-solid fa-cat me-1"></i><%= @animal.specie %></p>
+          <% else %>
+            <p><i class="fa-solid fa-dog me-1"></i><%= @animal.specie %></p>
+          <% end %>
+
+          <p><i class="fa-solid fa-baby-carriage"></i> <%= @animal.age %> </p>
+          <p><i class="fa-solid fa-ruler-combined"></i> Porte <%= @animal.size %></p>
+          <p><i class="fa-solid fa-venus-mars"></i> <%= @animal.gender %></p>
+
+          <% if @animal.vaccination && @animal.gender == 'Macho' %>
+            <p><i class="fa-solid fa-check"></i> Vacinado</p>
+            <% elsif @animal.vaccination == false && @animal.gender == 'Macho' %>
+            <p><i class="fa-solid fa-xmark"></i> Não vacinado</p>
+            <% elsif @animal.vaccination && @animal.gender == 'Fêmea' %>
+            <p><i class="fa-solid fa-check"></i> Vacinada</p>
+            <% elsif @animal.vaccination == false && @animal.gender == 'Fêmea' %>
+            <p><i class="fa-solid fa-xmark"></i> Não vacinada</p>
+          <% end %>
+          <% if @animal.neutered && @animal.gender == 'Macho' %>
+            <p><i class="fa-solid fa-check"></i> Castrado</p>
+            <% elsif @animal.neutered == false && @animal.gender == 'Macho' %>
+            <p><i class="fa-solid fa-xmark"></i> Não castrado</p>
+            <% elsif @animal.neutered && @animal.gender == 'Fêmea' %>
+            <p><i class="fa-solid fa-check"></i> Castrada</p>
+            <% elsif @animal.neutered == false && @animal.gender == 'Fêmea' %>
+            <p><i class="fa-solid fa-xmark"></i> Não castrada</p>
+          <% end %>
+        </div>
+
+        <h3>Conheça a minha história</h3>
+        <h4><em>"<%= @animal.story %>"</em></h4>
+      </div>
+
+      <div>
+        <% if @animal.adoptions.present? %>
+          <% adoptions = @animal.adoptions %>
+          <% if adoptions.any? { |adoption| adoption.status == "Aceito" } %>
+
+            <div class="adopted-btn d-flex justify-content-center align-items-center rounded-3 w-100 p-2">Adotado</div>
+          <% elsif adoptions.any? { |adoption| adoption.status == "Pendente" } %>
+            <div class="adopted-btn d-flex justify-content-center align-items-center rounded-3 w-100 p-2">Este animal encontra-se em processo de adoção</div>
+
+          <% end %>
+        <% else %>
+          <% if current_user.adopter? %>
+            <div class="d-flex">
+              <% if current_user.adoption_form.present? %>
+                <%= link_to "Quero adotar", new_animal_adoption_path(@animal), class: "btn-dark-green m-2 w-100 rounded-4" %>
+              <% else %>
+                <%= link_to "Quero adotar", new_adoption_form_path({target_animal_id: @animal.id}), class: "btn-dark-green m-2 w-100 rounded-4" %>
+              <% end %>
+              <%= button_to "Chat", animal_chatrooms_path(@animal), method: :post, class: "btn btn-primary" %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

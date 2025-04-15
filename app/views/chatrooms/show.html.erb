@@ -1,0 +1,33 @@
+<div class="container message-page" data-controller="chat">
+  <div class="message-box d-flex flex-column justify-content-between overflow-auto">
+    <% if current_user == @chatroom.user %>
+      <h6 class="name"><%= @chatroom.animal.user.first_name %> <%= @chatroom.animal.user.last_name %></h6>
+    <% else %>
+      <h6 class="name"><%= @chatroom.user.first_name %> <%= @chatroom.user.last_name %></h6>
+    <% end %>
+
+    <div class="messages">
+      <% @chatroom.messages.each do |message| %>
+        <div class="message-container">
+          <% if @sender %>
+            <strong><%= message.user.first_name %>:</strong>
+            <p><%= message.content %></p>
+            <small><%= message.to_time.strftime("%H:%M %d/%m/%Y") %></small>
+          <% else %>
+            <strong><%= message.animal.user.first_name %>:</strong>
+            <p><%= message.content %></p>
+            <small><%= message.to_time.strftime("%H:%M %d/%m/%Y") %></small>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <div class="message-form">
+      <%= simple_form_for [@chatroom, @message], remote: true do |f| %>
+        <div class="form-group">
+          <%= f.text_area :content, class: "form-control my-2", placeholder: "Digite sua mensagem..." %>
+          <%= f.submit "Enviar", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>"

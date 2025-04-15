@@ -1,0 +1,27 @@
+.img-footer {
+    height: 60px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 180px;
+    background-color: $caramel-grey;
+    color: black;
+    text-align: center;
+    border-top: 1px solid #D0D1D2;
+    margin-top: auto;
+    i {
+        font-size: 30px;
+        color: $dark-chocolat;
+    }
+    p {
+        font-size: 12px;
+    }
+}
+
+#content-wrap {
+    padding-bottom: 180px;
+    /* Footer height */
+}

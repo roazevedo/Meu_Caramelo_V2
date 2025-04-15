@@ -1,0 +1,6 @@
+<%= form_with model: [@chatroom, @message], method: :patch, remote: true do |f| %>
+  <div class="form-group" style="width: 100vw;">
+    <%= f.text_area :content, class: "form-control", placeholder: "Digite sua mensagem..." %>
+    <%= f.submit "Enviar", class: "btn btn-primary" %>
+  </div>
+<% end %>

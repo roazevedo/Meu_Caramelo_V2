@@ -1,0 +1,37 @@
+.devise-card {
+    background-color: $caramel-grey;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 4px rgba(0, 0, 0.2, 0.2);
+    padding: 20px;
+    width: 50%;
+    font-family: $base-font;
+}
+
+.adoption-card {
+    background-color: $caramel-grey;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 4px rgba(0, 0, 0.2, 0.2);
+    padding: 30px;
+    width: 100%;
+    font-family: $base-font;
+}
+
+.title {
+    font-family: $header-font;
+    font-size: 50px;
+    color: $caramel;
+}
+
+.title-sm {
+    font-family: $header-font;
+    font-size: 40px;
+    color: $caramel;
+}
+
+.first-name {
+    width: 260px;
+}
+
+.last-name {
+    width: 260px;
+}

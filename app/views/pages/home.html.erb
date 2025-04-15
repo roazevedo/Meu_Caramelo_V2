@@ -1,0 +1,129 @@
+<div class="banner">
+  <%= image_tag('home-hero.png', alt: 'Home Hero', class:"home-hero" ) %>
+
+  <div class="hero-btn d-flex flex-column">
+      <%= link_to "Quero adotar", new_user_registration_path(adopter: "true"), class: "btn btn-dark-green mb-2" %>
+      <%= link_to "Quero colocar para adoção", new_user_registration_path(adopter: "false"), class: "btn btn-dark-green-outline" %>
+  </div>
+</div>
+
+<div class="how-works">
+  <div class="header text-center">
+    <h1 class="title-home mb-0">Vamos mudar uma vida?</h1>
+    <p class="subtitle">Entenda como funciona:</p>
+  </div>
+
+
+  <div class="home-icon">
+    <div class="row">
+      <div class="col-sm text-center">
+        <%= image_tag('1.png', alt: 'Home Icon 1', class:"icon" ) %>
+        <p>Se você estiver procurando um novo melhor amigo, clique no botão 'Quero adotar' e preencha seu perfil e preferências, que nós vamos achar o seu match perfeito!</p>
+      </div>
+      <div class="col-sm text-center">
+        <%= image_tag('2.png', alt: 'Home Icon 1', class:"icon" ) %>
+        <p>Se você for uma ONG ou um protetor de animais, clique no botão 'Quero colocar para adoção' que nós vamos te ajudar a encontrar um lar cheio de amor para ele!</p>
+      </div>
+      <div class="col-sm text-center">
+        <%= image_tag('3.png', alt: 'Home Icon 1', class:"icon" ) %>
+        <p>Vocês podem combinar uma data para a entrega do pet e se comunicarem pelo nosso chat. Você pode compartilhar o final feliz para incentivar mais pessoas a adotarem!</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="happy-end mb-5 mx-5">
+  <div class="header text-center">
+    <h1 class="title-home mb-0 mt-4">Nossos finais felizes</h1>
+    <p class="mb-3 subtitle">Nosso maior orgulho é ajudar a transformar vidas e encontrar o melhor
+    <br> lar para os nossos pets, e o melhor amigo para você!</p>
+  </div>
+
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <% @testimonie.each_slice(3).with_index do |testimony_group, index| %>
+        <div class="carousel-item <%= 'active' if index.zero? %>">
+          <div class="row">
+            <% testimony_group.each do |testimony| %>
+              <div class="col-md-4">
+                <div class="d-flex flex-row mt-4">
+                  <div class="card me-3 ms-3">
+                    <div class="card-body d-flex flex-row align-content-between">
+                      <div class="my-auto">
+                        <% if testimony.adoption.animal.photo.attached? %>
+                          <%= cl_image_tag testimony.adoption.animal.photo.key, class:"card-img" %>
+                        <% else %>
+                          <%= image_tag "CRMLO.png", class:"card-img"  %>
+                        <% end %>
+                      </div>
+                      <div class="px-3 d-flex flex-column justify-content-between">
+                        <div>
+                          <p class="card-title"><%=testimony.adoption.animal.name%> e <%=testimony.adoption.user.first_name%></p>
+                          <p class="card-text mt-0"></p>
+                          <p class="card-text"><%= testimony.content %></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Anterior</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Próximo</span>
+    </a>
+  </div>
+</div>
+
+
+<div class="whyadopt mb-5 mx-5">
+  <div class="header text-center">
+    <h1 class="title-home mb-0 mt-3">Por que adotar?</h1>
+    <p class="mb-3 subtitle">Adote, não compre!</p>
+  </div>
+
+  <div class="d-flex flex-row mt-4 mx-auto justify-content-between">
+    <div class="card me-5">
+        <div class="card-body d-flex flex-row align-items-center">
+          <div class="my-auto">
+            <%= image_tag('why-2.png', alt: 'Happy End', class:"card-img" ) %>
+          </div>
+          <div class="ps-3 align-items-center">
+            <p class="card-text mt-2">Adotar significa ganhar um amigo instantâneo. Muitos animais em abrigos estão sedentos por afeto, criando laços profundos e imediatos.</p>
+          </div>
+        </div>
+    </div>
+
+    <div class="card me-5">
+      <div class="card-body d-flex flex-row align-items-center">
+          <div class="my-auto">
+            <%= image_tag('why-1.png', alt: 'Happy End', class:"card-img" ) %>
+          </div>
+          <div class="ps-3 align-items-center">
+            <p class="card-text mt-2">A adoção é amiga do bolso. Com custos incluindo vacinas e castração, é uma opção financeiramente acessível.</p>
+          </div>
+        </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body d-flex flex-row align-items-center">
+          <div class="my-auto">
+            <%= image_tag('why-3.png', alt: 'Happy End', class:"card-img" ) %>
+          </div>
+          <div class="ps-3 align-items-center">
+            <p class="card-text mt-2">Contribui para reduzir a superpopulação em abrigos, oferecendo a mais animais a chance de encontrar lares amorosos.</p>
+          </div>
+        </div>
+    </div>
+  </div>
+
+</div>

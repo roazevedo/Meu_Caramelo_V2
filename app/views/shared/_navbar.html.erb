@@ -1,0 +1,71 @@
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
+  <div class="container-fluid">
+    <%= link_to "/", class: "navbar-brand" do %>
+      <%= image_tag "logo.png" %>
+    <% end %>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto">
+        <% if user_signed_in? %>
+            <% if user_signed_in? && current_user.adopter? %>
+              <li class="nav-item active">
+                <%= link_to "Home", "/", class: "nav-link" %>
+              </li>
+              <li class="nav-item active">
+                <%= link_to "Meus matches", matchs_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item active">
+                <%= link_to "Dashboard", dashboard_path(current_user), class: "nav-link me-3" %>
+              </li>
+              <li class="nav-item dropdown">
+              <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <% if current_user.photo.attached? %>
+                  <%= cl_image_tag current_user.photo.key, class: "avatar", alt: "dropdown menu", height: 40, width: 40, crop: :fill %>
+                <% else %>
+                  <%= image_tag "cat.jpg", class: "avatar", alt: "dropdown menu", height: 40, width: 40 %>
+                 <% end %>
+              </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                  <%= link_to "Editar Perfil", edit_user_path, class: "dropdown-item" %>
+                  <%= link_to "Editar Formulário", edit_adoption_form_path(current_user), class: "dropdown-item" if current_user.adoption_form.present? %>
+                  <%= link_to "Sair", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+                </div>
+              </li>
+          <% else %>
+              <li class="nav-item active">
+                <%= link_to "Home", "/", class: "nav-link" %>
+              </li>
+              <li class="nav-item active">
+                <%= link_to "Todos os animais", animals_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item active">
+                <%= link_to "Dashboard", dashboard_path(current_user), class: "nav-link me-3" %>
+              </li>
+              <li class="nav-item dropdown">
+              <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <% if current_user.photo.attached? %>
+                  <%= cl_image_tag current_user.photo.key, class: "avatar", alt: "dropdown menu", height: 40, width: 40 %>
+                <% else %>
+                  <%= image_tag "cat.jpg", class: "avatar", alt: "dropdown menu", height: 40, width: 40 %>
+                <% end %>
+              </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                  <%= link_to "Editar Perfil", edit_user_path(current_user), class: "dropdown-item" %>
+                  <%= link_to "Sair", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
+                </div>
+              </li>
+          <% end %>
+        <% else %>
+           <li class="nav-item-btn d-flex">
+            <%= link_to "Entrar", new_user_session_path, class: "nav-link" %>
+            <%= link_to "Cadastre-se", new_user_registration_path, class: "btn btn-dark-green ms-2" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

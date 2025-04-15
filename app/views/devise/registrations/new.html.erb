@@ -1,0 +1,59 @@
+ <div class="container">
+  <h2 class="title text-center mt-4 mb-0">Cadastre-se</h2>
+  <div class="devise-card mt-4 mb-5 mx-auto">
+    <%= simple_form_for @user, url: :user_registration , data: { controller: "tab" }, html: { multipart: true } do |f| %>
+      <div class="tab-content">
+        <div class="tab-pane active" id="dados">
+
+          <%= f.input :first_name,
+                      label: "Nome",
+                      autofocus: true,
+                      required: true, class:"first-name", placeholder: 'Digite seu nome' %>
+          <%= f.input :last_name, label: "Sobrenome", required: true, class:"last-name", placeholder: 'Digite o seu sobrenome' %>
+          <%= f.input :photo, label: "Foto do Perfil", as: :file, required: true %>
+          <%= f.input :email,
+                      required: true,
+                      input_html: { autocomplete: "email" }, placeholder: 'email@email.com' %>
+          <%= f.input :password,
+                      required: true,
+                      hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                      input_html: { autocomplete: "new-password" } %>
+          <%= f.input :password_confirmation,
+                      required: true,
+                      input_html: { autocomplete: "new-password" } %>
+
+          <%= f.input :city, label: "Cidade", required: true, placeholder: 'Digite a Cidade' %>
+          <%= f.input :state, label: 'Estado', as: :select, collection: @states, placeholder: 'Selecione o Estado', include_blank: true, class:"state ms-3", required: true, placeholder: 'São Paulo' %>
+          <%= f.input :phone, label: "Telefone", placeholder: 'Digite o telefone com 9 dígitos', required: true %>
+          <%= f.input :adopter, label: "Quero adotar", input_html: { data: { action: "change->tab#checkAdopter", target: "tab.adopter" } } %>
+        </div>
+
+       <div class="tab-pane" id="preferencias" data-target="tab.preferencias">
+        <p class="title-form text-center mt-0 mb-3">Como seria seu animal ideal?</p>
+          <div class="name d-flex justify-content-between">
+            <div class="w-50" >
+              <%= f.input :age, label: "Idade", collection: ['Filhote', 'Adulto', 'Idoso'] %>
+              <%= f.input :size, label: "Porte", collection: ['Pequeno', 'Médio', 'Grande'] %>
+            </div>
+
+            <div class="w-50 ms-3">
+              <%= f.input :gender, label: "Gênero", collection: ['Macho', 'Fêmea'] %>
+              <%= f.input :specie, label: "Espécie", collection: ['Cachorro', 'Gato']%>
+            </div>
+          </div>
+
+          <div class="edit-form d-flex">
+            <%= f.input :vaccination, label: 'Vacinado', as: :boolean, input_html: { class: "toggle" } %>
+            <%= f.input :neutered, label: 'Castrado', as: :boolean, input_html: { class: "toggle" } %>
+          </div>
+      </div>
+
+      </div>
+      <div class="container">
+        <div class="form-actions">
+          <%= f.button :submit, "Cadastrar", class: "btn-dark-green mb-1" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+ </div>
