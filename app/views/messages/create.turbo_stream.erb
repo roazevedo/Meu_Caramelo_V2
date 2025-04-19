@@ -1,0 +1,12 @@
+<%= turbo_stream.append "messages_#{@chatroom.id}" do %>
+  <%= render partial: "messages/message", locals: { message: @message } %>
+<% end %>
+
+<turbo-stream action="after" target="messages_<%= @chatroom.id %>">
+  <template>
+    <script>
+      const container = document.getElementById("messages_<%= @chatroom.id %>");
+      if (container) container.scrollTop = container.scrollHeight;
+    </script>
+  </template>
+</turbo-stream>

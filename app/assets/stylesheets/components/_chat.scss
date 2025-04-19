@@ -1,0 +1,17 @@
+.chat {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &:hover {
+    width: 500px;
+  }
+}
+
+.chat-messages {
+  width: 90%;
+}
