@@ -1,0 +1,9 @@
+<div
+  id="<%= dom_id(message) %>"
+  class="message-container"
+  data-controller="message"
+  data-message-sender-value="<%= message.sender %>">
+
+  <p class="mb-1"><%= message.content %></p>
+  <small class="text-muted d-block"><%= message.date_of_send %></small>
+</div>

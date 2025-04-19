@@ -42,12 +42,12 @@ Rails.application.routes.draw do
     resources :adoptions, except: [:destroy]
   end
 
-  resources :animals, only: [:show] do
-    resources :chatrooms, only: [:create]
+  resources :chatrooms, only: [:show, :create] do
+    resources :messages, only: [:create]
   end
 
-  resources :chatrooms, only: [:show] do
-    resources :messages, only: [:index, :create]
+  resources :animals, only: [:show] do
+    resources :chatrooms, only: [:create]
   end
 
   # get 'favorites', to: 'bookmarks#favorites', as: 'favorites'

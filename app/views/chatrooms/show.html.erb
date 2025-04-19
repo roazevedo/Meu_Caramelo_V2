@@ -1,33 +1,25 @@
-<div class="container message-page" data-controller="chat">
-  <div class="message-box d-flex flex-column justify-content-between overflow-auto">
-    <% if current_user == @chatroom.user %>
-      <h6 class="name"><%= @chatroom.animal.user.first_name %> <%= @chatroom.animal.user.last_name %></h6>
-    <% else %>
-      <h6 class="name"><%= @chatroom.user.first_name %> <%= @chatroom.user.last_name %></h6>
-    <% end %>
-
-    <div class="messages">
-      <% @chatroom.messages.each do |message| %>
-        <div class="message-container">
-          <% if @sender %>
-            <strong><%= message.user.first_name %>:</strong>
-            <p><%= message.content %></p>
-            <small><%= message.to_time.strftime("%H:%M %d/%m/%Y") %></small>
-          <% else %>
-            <strong><%= message.animal.user.first_name %>:</strong>
-            <p><%= message.content %></p>
-            <small><%= message.to_time.strftime("%H:%M %d/%m/%Y") %></small>
-          <% end %>
-        </div>
+<%= turbo_stream_from @chatroom %>
+<div class="container message-page" data-controller="scroll" data-chatroom-id="<%= @chatroom.id %>">
+  <div class="message-box d-flex flex-column justify-content-between">
+    <div class="chat-header mb-3">
+      <% if current_user == @chatroom.user %>
+        <h5 class="name">Conversando com: <%= @chatroom.animal.user.first_name %> <%= @chatroom.animal.user.last_name %></h5>
+      <% else %>
+        <h5 class="name">Conversando com: <%= @chatroom.user.first_name %> <%= @chatroom.user.last_name %></h5>
       <% end %>
     </div>
-    <div class="message-form">
-      <%= simple_form_for [@chatroom, @message], remote: true do |f| %>
-        <div class="form-group">
-          <%= f.text_area :content, class: "form-control my-2", placeholder: "Digite sua mensagem..." %>
-          <%= f.submit "Enviar", class: "btn btn-primary" %>
+
+    <div class="messages flex-grow-1" id="messages_<%= @chatroom.id %>">
+      <%= render partial: "messages/messages", locals: { messages: @chatroom.messages, current_user: current_user } %>
+    </div>
+
+    <div class="message-form mt-3">
+      <%= simple_form_for [@chatroom, @message], data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" } do |f| %>
+        <div class="d-flex gap-2">
+          <%= f.text_area :content, class: "form-control message-text", placeholder: "Digite sua mensagem..." %>
+          <%= f.submit "Enviar", class: "btn btn-primary message-submit" %>
         </div>
       <% end %>
     </div>
   </div>
-</div>"
+</div>

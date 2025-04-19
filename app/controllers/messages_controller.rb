@@ -1,23 +1,23 @@
 class MessagesController < ApplicationController
-  def index
-    @messages = Message.all
-  end
-
   def create
     @chatroom = Chatroom.find(params[:chatroom_id])
     @message = Message.new(message_params)
     @message.chatroom = @chatroom
+    @message.sender = current_user.first_name # Garantir que o sender é o primeiro nome do usuário logado
 
     if @message.save
-      redirect_to chatroom_path(@chatroom), notice: 'Message was successfully created.'
+      respond_to do |format|
+        format.turbo_stream
+        format.html { redirect_to chatroom_path(@chatroom) }
+      end
     else
       render 'chatrooms/show', alert: 'Message was not created.'
     end
   end
 
-    private
+  private
 
-    def message_params
-      params.require(:message).permit(:content)
-    end
+  def message_params
+    params.require(:message).permit(:content, :sender)
   end
+end

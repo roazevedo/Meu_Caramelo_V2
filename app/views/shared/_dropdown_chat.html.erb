@@ -1,0 +1,12 @@
+<div class="btn-group chat">
+  <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Mensagens
+  </button>
+  <ul class="dropdown-menu chat-messages">
+    <% @user_chatrooms.each do |chatroom| %>
+      <li class="message-item">
+        <%= link_to chatroom.messages.last.content, chatroom_path(chatroom), class:"text-decoration-none text-dark" %>
+      </li>
+    <% end %>
+  </ul>
+</div>
