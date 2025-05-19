@@ -77,3 +77,4 @@ group :test do
   gem "selenium-webdriver"
 end
 gem 'mini_racer', platforms: :ruby
+gem 'execjs'
