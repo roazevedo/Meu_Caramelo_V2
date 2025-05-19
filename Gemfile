@@ -51,7 +51,6 @@ gem "font-awesome-sass", "~> 6.1"
 gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "cloudinary"
-gem 'mini_racer'
 gem 'libv8-node'
 
 group :development, :test do
@@ -81,4 +80,5 @@ end
 
 group :production do
   gem 'terser'
+  gem 'mini_racer'
 end
