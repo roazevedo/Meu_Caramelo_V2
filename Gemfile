@@ -52,6 +52,8 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "cloudinary"
 gem 'libv8-node'
+gem 'terser'
+gem 'mini_racer'
 
 group :development, :test do
   gem "dotenv-rails"
@@ -76,9 +78,4 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-end
-
-group :production do
-  gem 'terser'
-  gem 'mini_racer'
 end
