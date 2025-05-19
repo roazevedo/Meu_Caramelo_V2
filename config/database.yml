@@ -85,9 +85,9 @@ test:
 
 production:
   <<: *default
-  database: meu_caramelo_production
-  username: meucaramelopostgresql_user
-  password: <%= ENV["MEU_CARAMELO_DATABASE_PASSWORD"] %>
-  host: dpg-d07u7p2dbo4c73btg12g-a
+  database: postgres
+  username: postgres
+  password: <%= ENV["DB_PASSWORD"] %>
+  host: meu-caramelo-v2-db.internal
   port: 5432
   sslmode: require
