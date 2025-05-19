@@ -22,6 +22,11 @@ RUN apt-get update -qq && \
     curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
 
+# Instala Node.js (repositório oficial do NodeSource)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+  && apt-get update -qq \
+  && apt-get install -y nodejs build-essential libpq-dev
+
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle config --local build.pg "--with-pg-config=/usr/bin/pg_config" && \
@@ -62,5 +67,5 @@ USER rails:rails
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 8080
+EXPOSE 3000
 CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
