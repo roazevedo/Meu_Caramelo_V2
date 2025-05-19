@@ -337,6 +337,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   error_highlight (= 0.7.0)
+  execjs
   font-awesome-sass (~> 6.1)
   importmap-rails
   jbuilder

@@ -82,4 +82,3 @@ end
 group :production do
   gem 'terser'
 end
-
