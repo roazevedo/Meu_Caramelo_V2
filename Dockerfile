@@ -19,12 +19,14 @@ FROM base as build
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git \
     libpq-dev postgresql-client libyaml-dev libvips pkg-config \
-    nodejs npm
+    nodejs npm && \
+    ls -l /usr/bin/pg_config
+
+RUN gem update --system && gem install bundler
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle config --local build.pg "--with-pg-config=/usr/bin/pg_config" && \
-    bundle install && \
+RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
