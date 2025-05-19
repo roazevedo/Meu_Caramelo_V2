@@ -17,7 +17,11 @@ FROM base as build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git \
+    apt-get install --no-install-recommends -y curl gnupg && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    build-essential git nodejs \
     libpq-dev postgresql-client libyaml-dev libvips pkg-config
 
 # Install application gems
@@ -42,7 +46,11 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libvips postgresql-client && \
+    apt-get install --no-install-recommends -y curl gnupg && \
+    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    nodejs libvips postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
@@ -58,5 +66,5 @@ USER rails:rails
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 8080
+EXPOSE 3000
 CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
