@@ -24,6 +24,11 @@ RUN apt-get update -qq && \
     build-essential git nodejs \
     libpq-dev postgresql-client libyaml-dev libvips pkg-config
 
+# Instala Node.js e Yarn, se necessário
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+  apt-get install -y nodejs && \
+  npm install -g yarn
+
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle config --local build.pg "--with-pg-config=/usr/bin/pg_config" && \
