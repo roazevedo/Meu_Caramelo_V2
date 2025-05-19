@@ -84,10 +84,6 @@ test:
 #   password: <%= ENV["MEU_CARAMELO_DATABASE_PASSWORD"] %>
 
 production:
-  <<: *default
-  database: postgres
-  username: postgres
-  password: <%= ENV["DB_PASSWORD"] %>
-  host: meu-caramelo-v2-db.internal
-  port: 5432
-  sslmode: require
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: 5
+  timeout: 5000
