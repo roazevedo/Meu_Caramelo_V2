@@ -20,6 +20,11 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git \
     libpq-dev postgresql-client libyaml-dev libvips pkg-config
 
+# Instala Node.js (repositório oficial do NodeSource)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+  && apt-get update -qq \
+  && apt-get install -y nodejs build-essential libpq-dev
+
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle config --local build.pg "--with-pg-config=/usr/bin/pg_config" && \
