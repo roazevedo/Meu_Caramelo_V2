@@ -40,6 +40,8 @@ RUN bundle exec bootsnap precompile app/ lib/
 RUN SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production RAILS_LOG_TO_STDOUT=true \
     bundle exec rake assets:precompile --trace || echo "Assets may have failed to compile. Continuing build."
 
+CMD ["/bin/bash"]
+
 # Final stage for app image
 FROM base
 
