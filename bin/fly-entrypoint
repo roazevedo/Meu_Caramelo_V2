@@ -1,18 +1,12 @@
 #!/bin/bash
 set -e
 
-# Espera o banco de dados estar disponível
-until pg_isready -h $DATABASE_HOST -p 5432 -U $DATABASE_USERNAME; do
-  echo "Waiting for database connection..."
-  sleep 2
-done
+# Executar migrações se necessário
+if [ "${RAILS_ENV}" == "production" ]; then
+  echo "Executando migrações..."
+  bundle exec rake db:migrate
+fi
 
-# Execute as migrações pendentes e prepare o banco de dados
-bundle exec rails db:prepare
-
-# Limpe ou crie arquivos PID
-rm -f /rails/tmp/pids/server.pid
-rm -f /rails/tmp/pids/puma.pid
-
-# Execute o comando fornecido pelo Docker CMD
-exec "$@"
+# Iniciar o servidor Puma
+echo "Iniciando Puma..."
+exec bundle exec puma -C config/puma.rb

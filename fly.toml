@@ -1,13 +1,15 @@
 app = "meu-caramelo-v2"
+primary_region = "gru"
 
 [build]
-  dockerfile = "Dockerfile"
+  [build.args]
+    BUNDLER_VERSION = "2.4.19"
+    NODE_VERSION = "18.18.0"
+    RUBY_VERSION = "3.1.4"
 
 [env]
-  RAILS_ENV = "production"
-  RAILS_LOG_TO_STDOUT = "true"
-  RAILS_SERVE_STATIC_FILES = "true"
   PORT = "8080"
+  RAILS_ENV = "production"
 
 [http_service]
   internal_port = 8080
@@ -33,3 +35,6 @@ app = "meu-caramelo-v2"
 [[statics]]
   guest_path = "/rails/public"
   url_prefix = "/"
+
+[deploy]
+  release_command = "bundle exec rake db:migrate"
