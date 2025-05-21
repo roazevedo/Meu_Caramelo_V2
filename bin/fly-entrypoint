@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+# Executar migrações se necessário
+if [ "${RAILS_ENV}" == "production" ]; then
+  echo "Executando migrações..."
+  bundle exec rake db:migrate
+fi
+
+# Iniciar o servidor Puma
+echo "Iniciando Puma..."
+exec bundle exec puma -C config/puma.rb
