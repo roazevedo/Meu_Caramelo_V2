@@ -37,7 +37,9 @@ Rails.application.configure do
   config.assets.digest = true
 
   # Servir ativos do diretório public
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = true
+
+  config.action_mailer.default_url_options = { host: ENV.fetch("APPLICATION_HOST", "meu-caramelo-v2.fly.dev") }
 
   # Reduzir logs durante compilação
   config.assets.quiet = true
