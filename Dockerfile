@@ -1,71 +1,32 @@
-# syntax = docker/dockerfile:1
+FROM ruby:3.1.4-slim
 
-ARG RUBY_VERSION=3.2.2
-FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
+ENV RAILS_ENV=production \
+    BUNDLE_DEPLOYMENT=1 \
+    BUNDLE_PATH=/gems \
+    SECRET_KEY_BASE=dummysecretkeyduringbuild
 
-# Rails app lives here
+RUN apt-get update -qq && apt-get install -y \
+    build-essential \
+    libv8-dev \
+    pkg-config \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /rails
 
-# Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development:test"
-
-# Throw-away build stage to reduce size of final image
-FROM base as build
-
-# Install packages needed to build gems and assets
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git \
-    libpq-dev postgresql-client libyaml-dev libvips pkg-config \
-    nodejs npm && \
-    ls -l /usr/bin/pg_config
-
-RUN gem update --system && gem install bundler
-
-# Install application gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
-    bundle exec bootsnap precompile --gemfile
+RUN bundle install --jobs 20 --retry 5
 
-# Copy application code
 COPY . .
 
-# Precompile bootsnap code for faster boot times
-RUN bundle exec bootsnap precompile app/ lib/
+RUN bundle exec rake assets:precompile RAILS_ENV=production
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production RAILS_LOG_TO_STDOUT=true \
-    bundle exec rake assets:precompile --trace || echo "Assets may have failed to compile. Continuing build."
+COPY ./bin/docker-entrypoint.sh /rails/bin/docker-entrypoint.sh
+RUN chmod +x /rails/bin/docker-entrypoint.sh
 
-CMD ["/bin/bash"]
+RUN ln -s /rails/bin/docker-entrypoint.sh /rails/bin/fly-entrypoint && \
+    chmod +x /rails/bin/fly-entrypoint
 
-# Final stage for app image
-FROM base
-
-# Install packages needed for deployment
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libvips postgresql-client nodejs procps net-tools && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
-
-# Copy built artifacts: gems, application
-COPY --from=build /usr/local/bundle /usr/local/bundle
-COPY --from=build /rails /rails
-
-# Run and own only the runtime files as a non-root user for security
-RUN useradd rails --create-home --shell /bin/bash && \
-    chown -R rails:rails db log storage tmp public
-USER rails:rails
-
-RUN mkdir -p /rails/log /rails/tmp/pids
-
-# Entrypoint prepares the database.
-# ENTRYPOINT ["/rails/bin/docker-entrypoint"]
-ENTRYPOINT ["/rails/bin/fly-entrypoint"]
-
-# Start the server by default, this can be overwritten at runtime
 EXPOSE 8080
-# CMD ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "8080"]
-CMD ["bundle", "exec", "puma", "-C", "config/puma_production.rb"]
+
+CMD ["/rails/bin/docker-entrypoint.sh"]

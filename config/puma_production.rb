@@ -11,7 +11,7 @@ port ENV.fetch("PORT") { 8080 }
 environment ENV.fetch("RAILS_ENV") { "production" }
 
 # Especificar explicitamente para ouvir em todos os endereços IP
-bind "tcp://0.0.0.0:#{ENV.fetch("PORT") { 8080 }}"
+bind "tcp://0.0.0.0:8080"
 
 # Configurações para melhor desempenho
 preload_app!

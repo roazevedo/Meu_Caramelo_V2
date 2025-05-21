@@ -2,12 +2,14 @@ app = "meu-caramelo-v2"
 primary_region = "gru"
 
 [build]
-  dockerfile = "Dockerfile"
+  [build.args]
+    BUNDLER_VERSION = "2.4.19"
+    NODE_VERSION = "18.18.0"
+    RUBY_VERSION = "3.1.4"
 
 [env]
   PORT = "8080"
-  RAILS_SERVE_STATIC_FILES = "true"
-  RAILS_LOG_TO_STDOUT = "true"
+  RAILS_ENV = "production"
 
 [http_service]
   internal_port = 8080
@@ -17,19 +19,9 @@ primary_region = "gru"
   min_machines_running = 0
   processes = ["app"]
 
-  [http_service.concurrency]
-    type = "connections"
-    hard_limit = 25
-    soft_limit = 20
-
-  [[http_service.checks]]
-    interval = "15s"
-    timeout = "10s"
-    grace_period = "30s"
-    method = "GET"
-    path = "/health"
-    protocol = "http"
-
 [[statics]]
   guest_path = "/rails/public"
   url_prefix = "/"
+
+[deploy]
+  release_command = "bundle exec rake db:migrate"
