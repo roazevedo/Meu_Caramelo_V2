@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+# Espera o banco de dados estar disponível
+until pg_isready -h $DATABASE_HOST -p 5432 -U $DATABASE_USERNAME; do
+  echo "Waiting for database connection..."
+  sleep 2
+done
+
+# Execute as migrações pendentes e prepare o banco de dados
+bundle exec rails db:prepare
+
+# Limpe ou crie arquivos PID
+rm -f /rails/tmp/pids/server.pid
+rm -f /rails/tmp/pids/puma.pid
+
+# Execute o comando fornecido pelo Docker CMD
+exec "$@"
