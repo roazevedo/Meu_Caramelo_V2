@@ -1,13 +1,13 @@
 app = "meu-caramelo-v2"
+primary_region = "gru"
 
 [build]
   dockerfile = "Dockerfile"
 
 [env]
-  RAILS_ENV = "production"
-  RAILS_LOG_TO_STDOUT = "true"
-  RAILS_SERVE_STATIC_FILES = "true"
   PORT = "8080"
+  RAILS_SERVE_STATIC_FILES = "true"
+  RAILS_LOG_TO_STDOUT = "true"
 
 [http_service]
   internal_port = 8080
@@ -16,6 +16,19 @@ app = "meu-caramelo-v2"
   auto_start_machines = true
   min_machines_running = 0
   processes = ["app"]
+
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[http_service.checks]]
+    interval = "15s"
+    timeout = "10s"
+    grace_period = "30s"
+    method = "GET"
+    path = "/health"
+    protocol = "http"
 
 [[statics]]
   guest_path = "/rails/public"
