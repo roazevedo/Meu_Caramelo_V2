@@ -2,7 +2,9 @@ FROM ruby:3.1.4-slim
 
 ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
-    BUNDLE_PATH=/gems
+    BUNDLE_PATH=/gems \
+    BUNDLE_BUILD__MINI_RACER="--with-v8-dir=/usr/local" \
+    MAKE="make -j$(nproc)"
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     curl \
@@ -16,6 +18,7 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     python3 \
     git \
     libpq-dev \
+    libyaml-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Instala Node.js direto do site oficial (versão 18.x)
@@ -25,11 +28,17 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
 
 WORKDIR /rails
 
-RUN gem install psych --version "~> 5.0"
+# Atualiza o bundler e instala psych com versão específica
+RUN gem update --system && \
+    gem install bundler -v 2.5.5 && \
+    gem install psych --version "~> 5.0"
 
 # Copia Gemfiles e instala gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle install --jobs 20 --retry 5
+
+# Configura bundler para mini_racer e instala gems
+RUN bundle config set --local build.mini_racer "--with-v8-dir=/usr/local" && \
+    bundle install --jobs 20 --retry 5
 
 # Copia restante da aplicação
 COPY . .
