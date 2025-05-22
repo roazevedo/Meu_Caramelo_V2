@@ -12,7 +12,7 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Instala Node.js (necessário para terser e assets)
+# Instala Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
@@ -29,11 +29,7 @@ RUN bundle config set frozen false && \
 # Copia o resto da aplicação
 COPY . .
 
-# Verifica se temos JavaScript runtime disponível e precompila assets
-RUN echo "Node.js version: $(node --version)" && \
-    echo "NPM version: $(npm --version)" && \
-    bundle exec rails runner "puts 'Rails loaded successfully'" && \
-    bundle exec rake assets:precompile RAILS_ENV=production RAILS_GROUPS=assets
+# NÃO precompila assets aqui - vai fazer em runtime
 
 # Setup dos scripts de entrada
 COPY ./bin/docker-entrypoint.sh /rails/bin/docker-entrypoint.sh
