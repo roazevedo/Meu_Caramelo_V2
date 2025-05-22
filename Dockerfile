@@ -4,9 +4,17 @@ ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=/gems
 
-RUN apt-get update -qq && apt-get install -y \
+RUN apt-get update -qq && apt-get install -y curl \
+    && curl -sL https://deb.nodesource.com/setup_18.x | bash -
+
+RUN apt-get install -y \
+    nodejs \
     build-essential \
     libv8-dev \
+    clang \
+    llvm \
+    libc++-dev \
+    libc++abi-dev \
     pkg-config \
     python3 \
     git \
@@ -14,6 +22,8 @@ RUN apt-get update -qq && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /rails
+
+RUN gem install psych --version "~> 5.0"
 
 COPY Gemfile Gemfile.lock ./
 RUN bundle install --jobs 20 --retry 5
