@@ -53,7 +53,7 @@ gem "sassc-rails"
 gem "cloudinary"
 gem 'libv8-node'
 gem 'terser'
-gem 'mini_racer'
+gem 'mini_racer', '~> 0.8.0'
 
 group :development, :test do
   gem "dotenv-rails"
