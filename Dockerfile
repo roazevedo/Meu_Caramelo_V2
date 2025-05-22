@@ -10,6 +10,7 @@ RUN apt-get update -qq && apt-get install -y \
     libv8-dev \
     pkg-config \
     python3 \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /rails
