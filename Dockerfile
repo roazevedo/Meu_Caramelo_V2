@@ -2,7 +2,8 @@ FROM ruby:3.1.4-slim
 
 ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
-    BUNDLE_PATH=/gems
+    BUNDLE_PATH=/gems \
+    NODE_ENV=production
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     curl \
@@ -21,14 +22,18 @@ WORKDIR /rails
 # Copia Gemfiles
 COPY Gemfile Gemfile.lock ./
 
-# Instala gems (muito mais simples sem mini_racer)
-RUN bundle install --jobs 20 --retry 5
+# Desabilita o modo frozen e instala gems
+RUN bundle config set frozen false && \
+    bundle install --jobs 20 --retry 5
 
 # Copia o resto da aplicação
 COPY . .
 
-# Precompila assets (vai usar Node.js automaticamente)
-RUN bundle exec rake assets:precompile RAILS_ENV=production
+# Verifica se temos JavaScript runtime disponível e precompila assets
+RUN echo "Node.js version: $(node --version)" && \
+    echo "NPM version: $(npm --version)" && \
+    bundle exec rails runner "puts 'Rails loaded successfully'" && \
+    bundle exec rake assets:precompile RAILS_ENV=production RAILS_GROUPS=assets
 
 # Setup dos scripts de entrada
 COPY ./bin/docker-entrypoint.sh /rails/bin/docker-entrypoint.sh
