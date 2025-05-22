@@ -2,18 +2,12 @@ FROM ruby:3.1.4-slim
 
 ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
-    BUNDLE_PATH=/gems \
-    BUNDLE_BUILD__MINI_RACER="--with-v8-dir=/usr/local" \
-    MAKE="make -j$(nproc)"
+    BUNDLE_PATH=/gems
 
+# Instala dependências do sistema
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     curl \
     build-essential \
-    libv8-dev \
-    clang \
-    llvm \
-    libc++-dev \
-    libc++abi-dev \
     pkg-config \
     python3 \
     git \
@@ -21,31 +15,28 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     libyaml-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Instala Node.js direto do site oficial (versão 18.x)
+# Instala Node.js (necessário para terser e assets)
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-  && apt-get install -y nodejs \
-  && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /rails
 
-# Atualiza o bundler e instala psych com versão específica
-RUN gem update --system && \
-    gem install bundler -v 2.5.5 && \
-    gem install psych --version "~> 5.0"
-
-# Copia Gemfiles e instala gems
+# Copia Gemfiles
 COPY Gemfile Gemfile.lock ./
 
-# Configura bundler para mini_racer e instala gems
+# Instala gems com configuração otimizada
 RUN bundle config set --local build.mini_racer "--with-v8-dir=/usr/local" && \
-    bundle install --jobs 20 --retry 5
+    bundle config set --local build.libv8-node "--with-v8-dir=/usr/local" && \
+    bundle install --jobs 4 --retry 3
 
-# Copia restante da aplicação
+# Copia o resto da aplicação
 COPY . .
 
-# Precompila assets, se necessário (opcional)
+# Precompila assets
 RUN bundle exec rake assets:precompile RAILS_ENV=production
 
+# Setup dos scripts de entrada
 COPY ./bin/docker-entrypoint.sh /rails/bin/docker-entrypoint.sh
 RUN chmod +x /rails/bin/docker-entrypoint.sh
 
