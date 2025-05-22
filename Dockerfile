@@ -35,8 +35,8 @@ COPY . .
 COPY ./bin/docker-entrypoint.sh /rails/bin/docker-entrypoint.sh
 RUN chmod +x /rails/bin/docker-entrypoint.sh
 
-RUN ln -s /rails/bin/docker-entrypoint.sh /rails/bin/fly-entrypoint && \
-    chmod +x /rails/bin/fly-entrypoint
+# RUN ln -s /rails/bin/docker-entrypoint.sh /rails/bin/fly-entrypoint && \
+#  chmod +x /rails/bin/fly-entrypoint
 
 EXPOSE 8080
 
