@@ -2,23 +2,26 @@ FROM ruby:3.1.4-slim
 
 ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
-    BUNDLE_PATH=/gems \
-    SECRET_KEY_BASE=dummysecretkeyduringbuild
+    BUNDLE_PATH=/gems
 
+# Instala dependências essenciais e o git (necessário para gems do GitHub)
 RUN apt-get update -qq && apt-get install -y \
     build-essential \
     libv8-dev \
     pkg-config \
     python3 \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /rails
 
 COPY Gemfile Gemfile.lock ./
+
 RUN bundle install --jobs 20 --retry 5
 
 COPY . .
 
+# Precompila os assets com Sprockets (já que usa importmap)
 RUN bundle exec rake assets:precompile RAILS_ENV=production
 
 COPY ./bin/docker-entrypoint.sh /rails/bin/docker-entrypoint.sh
