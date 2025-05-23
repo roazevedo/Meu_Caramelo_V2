@@ -10,6 +10,9 @@ primary_region = "gru"
 [env]
   PORT = "8080"
   RAILS_ENV = "production"
+  WEB_CONCURRENCY = "1"
+  RAILS_MAX_THREADS = "2"
+  RAILS_MIN_THREADS = "2"
 
 [http_service]
   internal_port = 8080
