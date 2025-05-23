@@ -19,6 +19,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
 
 WORKDIR /rails
 
+RUN mkdir -p tmp/pids
+
 # Copia Gemfiles
 COPY Gemfile Gemfile.lock ./
 
@@ -43,4 +45,6 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:8080/up || exit 1
 
-CMD ["/rails/bin/docker-entrypoint.sh"]
+# CMD ["/rails/bin/docker-entrypoint.sh"]
+ENTRYPOINT ["/rails/bin/docker-entrypoint.sh"]
+CMD ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "8080"]
