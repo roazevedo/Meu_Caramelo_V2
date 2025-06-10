@@ -47,4 +47,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 # CMD ["/rails/bin/docker-entrypoint.sh"]
 ENTRYPOINT ["/rails/bin/docker-entrypoint.sh"]
-CMD ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "8080"]
+CMD ["bin/start-server", "bundle", "exec", "rails", "server", "-b", "0.0.0.0"]

@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+# Executar migrações na inicialização
+bundle exec rails db:prepare
+
+# Iniciar o servidor
+exec "$@"
