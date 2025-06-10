@@ -1,5 +1,5 @@
 app = "meu-caramelo-v2"
-primary_region = "gru"
+primary_region = "gig"
 
 [build]
   [build.args]
