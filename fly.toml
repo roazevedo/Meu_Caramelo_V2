@@ -8,14 +8,14 @@ primary_region = "gru"
     RUBY_VERSION = "3.1.4"
 
 [env]
-  PORT = "8080"
+  PORT = "3000"
   RAILS_ENV = "production"
   WEB_CONCURRENCY = "1"
   RAILS_MAX_THREADS = "2"
   RAILS_MIN_THREADS = "2"
 
 [http_service]
-  internal_port = 8080
+  internal_port = 3000
   force_https = true
   auto_stop_machines = "suspend"
   auto_start_machines = true
