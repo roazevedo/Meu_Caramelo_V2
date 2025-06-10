@@ -42,4 +42,4 @@ primary_region = "gru"
   url_prefix = "/"
 
 [deploy]
-  release_command = "rails db:prepare"
+  # release_command = "rails db:prepare"
