@@ -35,6 +35,7 @@ primary_region = "gru"
   type = "http"
   path = "/up"
   method = "GET"
+  protocol = "https"
 
 [[statics]]
   guest_path = "/rails/public"
