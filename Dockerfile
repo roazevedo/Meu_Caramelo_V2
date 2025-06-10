@@ -3,7 +3,8 @@ FROM ruby:3.1.4-slim
 ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=/gems \
-    NODE_ENV=production
+    NODE_ENV=production \
+    PORT=3000
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     curl \
@@ -31,20 +32,13 @@ RUN bundle config set frozen false && \
 # Copia o resto da aplicação
 COPY . .
 
-# NÃO precompila assets aqui - vai fazer em runtime
-
 # Setup dos scripts de entrada
 COPY ./bin/docker-entrypoint.sh /rails/bin/docker-entrypoint.sh
 RUN chmod +x /rails/bin/docker-entrypoint.sh
 
-# RUN ln -s /rails/bin/docker-entrypoint.sh /rails/bin/fly-entrypoint && \
-#  chmod +x /rails/bin/fly-entrypoint
+EXPOSE 3000
 
-EXPOSE 8080
+# Remover HEALTHCHECK - Fly.io usa seu próprio sistema
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8080/up || exit 1
-
-# CMD ["/rails/bin/docker-entrypoint.sh"]
 ENTRYPOINT ["/rails/bin/docker-entrypoint.sh"]
-CMD ["bin/start-server", "bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
