@@ -27,12 +27,12 @@ primary_region = "gru"
     hard_limit = 25
     soft_limit = 20
 
-  [[http_service.checks]]
-  interval = "30s"
-  timeout = "5s"
-  grace_period = "10s"
-  port = 3000
-  type = "tcp"
+  # [[http_service.checks]]
+  # interval = "30s"
+  # timeout = "5s"
+  # grace_period = "10s"
+  # port = 3000
+  # type = "tcp"
 
 [[statics]]
   guest_path = "/rails/public"
