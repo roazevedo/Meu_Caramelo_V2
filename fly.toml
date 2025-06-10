@@ -1,5 +1,5 @@
 app = "meu-caramelo-v2"
-primary_region = "gig"
+primary_region = "gru"
 
 [build]
   [build.args]
@@ -27,16 +27,18 @@ primary_region = "gig"
     hard_limit = 25
     soft_limit = 20
 
-  # [[http_service.checks]]
-  # interval = "30s"
-  # timeout = "5s"
-  # grace_period = "10s"
-  # port = 3000
-  # type = "tcp"
+  [[http_service.checks]]
+  interval = "30s"
+  timeout = "5s"
+  grace_period = "10s"
+  port = 3000
+  type = "http"
+  path = "/up"
+  method = "GET"
 
 [[statics]]
   guest_path = "/rails/public"
   url_prefix = "/"
 
 [deploy]
-  # release_command = "rails db:prepare"
+  release_command = "rails db:prepare"

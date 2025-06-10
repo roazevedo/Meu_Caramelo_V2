@@ -65,5 +65,5 @@ Rails.application.routes.draw do
   patch "update_user", to: "users#update", as: :update_user
 
   get "/chatrooms/unread_count", to: "chatrooms#unread_count"
-  # get "/health", to: "health#check"
+  get "up" => "rails/health#show", as: :rails_health_check
 end
