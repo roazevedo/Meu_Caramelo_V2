@@ -19,7 +19,7 @@ primary_region = "gru"
   force_https = true
   auto_stop_machines = "suspend"
   auto_start_machines = true
-  min_machines_running = 1
+  min_machines_running = 0
   processes = ["app"]
 
   [http_service.concurrency]
@@ -28,14 +28,14 @@ primary_region = "gru"
     soft_limit = 20
 
   [[http_service.checks]]
-  interval = "30s"
-  timeout = "5s"
-  grace_period = "10s"
-  port = 3000
-  type = "http"
-  path = "/up"
-  method = "GET"
-  protocol = "https"
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    port = 3000
+    type = "http"
+    path = "/up"
+    method = "GET"
+    protocol = "http"
 
 [[statics]]
   guest_path = "/rails/public"
