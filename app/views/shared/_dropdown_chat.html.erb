@@ -1,12 +1,11 @@
-<div class="btn-group chat">
-  <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Mensagens
-  </button>
+<li class="nav-item dropdown">
+  <%= image_tag "message.png", class:"nav-link dropdown-toggle", id:"dropdownMenuButton", data: { bs_toggle: "dropdown" }, aria: { expanded: "false" } %>
   <ul class="dropdown-menu chat-messages">
     <% @user_chatrooms.each do |chatroom| %>
       <li class="message-item">
-        <%= link_to chatroom.messages.last.content, chatroom_path(chatroom), class:"text-decoration-none text-dark" %>
+        <% last_message = chatroom.messages.last %>
+        <%= link_to (last_message&.content || "Nova conversa"), chatroom_path(chatroom), class:"text-decoration-none text-dark" %>
       </li>
     <% end %>
   </ul>
-</div>
+</li>
