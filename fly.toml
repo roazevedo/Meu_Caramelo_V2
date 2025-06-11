@@ -29,8 +29,8 @@ primary_region = "gru"
 
   [[http_service.checks]]
     interval = "30s"
-    timeout = "5s"
-    grace_period = "10s"
+    timeout = "10s"
+    grace_period = "20s"
     port = 3000
     type = "http"
     path = "/up"
