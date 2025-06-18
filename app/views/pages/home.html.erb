@@ -1,9 +1,8 @@
 <div class="banner">
   <%= image_tag('home-hero.png', alt: 'Home Hero', class:"home-hero" ) %>
-
   <div class="hero-btn d-flex flex-column">
-      <%= link_to "Quero adotar", new_user_registration_path(adopter: "true"), class: "btn btn-dark-green mb-2" %>
-      <%= link_to "Quero colocar para adoção", new_user_registration_path(adopter: "false"), class: "btn btn-dark-green-outline" %>
+    <%= link_to "Quero adotar", new_user_registration_path(adopter: "true"), class: "btn btn-dark-green mb-2 w-100" %>
+    <%= link_to "Quero colocar para adoção", new_user_registration_path(adopter: "false"), class: "btn btn-dark-green-outline w-100" %>
   </div>
 </div>
 
@@ -12,7 +11,6 @@
     <h1 class="title-home mb-0">Vamos mudar uma vida?</h1>
     <p class="subtitle">Entenda como funciona:</p>
   </div>
-
 
   <div class="home-icon">
     <div class="row">
@@ -84,7 +82,6 @@
   </div>
 </div>
 
-
 <div class="whyadopt mb-5 mx-5">
   <div class="header text-center">
     <h1 class="title-home mb-0 mt-3">Por que adotar?</h1>
@@ -125,5 +122,4 @@
         </div>
     </div>
   </div>
-
 </div>

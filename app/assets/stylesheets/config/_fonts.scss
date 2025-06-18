@@ -6,11 +6,13 @@
 // $headers-font: "Nunito","Helvetica","sans-serif";
 // To use a font file (.woff) uncomment following lines
 @font-face {
-    font-family: "LuckyBones";
-    src: url(asset-path('lucky_bones/Luckybones-Bold.eot'));
-    src: url(asset-path('lucky_bones/Luckybones-Bold.eot?#iefix')) format('embedded-opentype'), url(asset-path('lucky_bones/Luckybones-Bold.woff')) format('woff'), url(asset-path('lucky_bones/Luckybones-Bold.ttf')) format('truetype');
-    font-weight: bold;
-    font-style: normal;
+  font-family: "LuckyBones";
+  src: font-url('lucky_bones/Luckybones-Bold.eot');
+  src: font-url('lucky_bones/Luckybones-Bold.eot?#iefix') format('embedded-opentype'),
+       font-url('lucky_bones/Luckybones-Bold.woff') format('woff'),
+       font-url('lucky_bones/Luckybones-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
 }
 
 $my-font: 'LuckyBones',

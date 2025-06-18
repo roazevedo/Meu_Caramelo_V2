@@ -52,9 +52,8 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem "cloudinary"
 gem 'terser'
-# gem 'libv8-node'
-# gem 'mini_racer', '~> 0.8.0'
 gem 'execjs'
+gem 'rails-i18n'
 
 group :development, :test do
   gem "dotenv-rails"
